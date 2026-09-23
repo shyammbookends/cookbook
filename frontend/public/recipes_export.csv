@@ -1,0 +1,329 @@
+External ID,Title,Brand,Category,Slug,Card excerpt,Description,Ingredients,Prep steps,Cook steps,Prep time,Cook time,Rest time,Total time,Servings,Yield,Difficulty,Cuisine,Course,Dietary,Spice level,Tags,Hero image,Gallery images,Calories,Protein (g),Carbs (g),Fat (g),Fiber (g),Sugar (g),Sodium (mg),Notes,Tips,Equipment,SEO title,SEO description,Status,Featured,Dish Code,Version,Author,Approved By,Effective Date,Next Review Date,Mise En Place,Plating,Holding,Allergens
+,Hot Honey Pepperoni,Capiche,Main Menu,hot-honey-pepperoni,"Sweet heat, big crunch, extra napkins.",Hot Honey Pepperoni — a placeholder recipe seeded for development. Replace with real content from the admin panel.,"500 g main ingredient
+1 tsp seasoning",Prep all ingredients.,Cook until done.,20,25,,45,4,,Medium,,,,,,,,,,,,,,,,,,,,Published,Yes,,1,,,,,,,,
+,Miso Butter Udon,Aiko,Main Menu,miso-butter-udon,"Slow-melted miso butter, slurp-worthy noodles.",Miso Butter Udon — a placeholder recipe seeded for development. Replace with real content from the admin panel.,"500 g main ingredient
+1 tsp seasoning",Prep all ingredients.,Cook until done.,20,25,,45,4,,Medium,,,,,,,,,,,,,,,,,,,,Published,Yes,,1,,,,,,,,
+,Butter Chicken,Beshak,Main Menu,butter-chicken,"The classic, done beshak — without a doubt.",Butter Chicken — a placeholder recipe seeded for development. Replace with real content from the admin panel.,"500 g main ingredient
+1 tsp seasoning",Prep all ingredients.,Cook until done.,20,25,,45,4,,Medium,,,,,,,,,,,,,,,,,,,,Published,Yes,,1,,,,,,,,
+,Ghaslet Original Hot Sauce,Ghaslet,Main Menu,ghaslet-original-hot-sauce,"Dangerously addictive, handcrafted heat.",Ghaslet Original Hot Sauce — a placeholder recipe seeded for development. Replace with real content from the admin panel.,"500 g main ingredient
+1 tsp seasoning",Prep all ingredients.,Cook until done.,20,25,,45,4,,Medium,,,,,,,,,,,,,,,,,,,,Published,Yes,,1,,,,,,,,
+,Classic Margherita,Capiche,Main Menu,classic-margherita,Delicious Classic Margherita made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,5,,15,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-01,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Pepperoni Passion,Capiche,Main Menu,pepperoni-passion,Delicious Pepperoni Passion made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,6,,16,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-02,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Truffle Mushroom,Capiche,Main Menu,truffle-mushroom,Delicious Truffle Mushroom made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,7,,22,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-03,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Spicy Diavola,Capiche,Main Menu,spicy-diavola,Delicious Spicy Diavola made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",12,6,,18,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-04,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Garlic Knots,Capiche,Main Menu,garlic-knots,Delicious Garlic Knots made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,10,,30,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-05,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Caprese Salad,Capiche,Main Menu,caprese-salad,Delicious Caprese Salad made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,,,10,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-06,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Tiramisu Slice,Capiche,Main Menu,tiramisu-slice,Delicious Tiramisu Slice made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",30,,,30,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-07,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Pesto Pasta,Capiche,Main Menu,pesto-pasta,Delicious Pesto Pasta made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,12,,27,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-08,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Burrata Plate,Capiche,Main Menu,burrata-plate,Delicious Burrata Plate made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",5,,,5,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-09,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,NYC Cheese Slice,Capiche,Main Menu,nyc-cheese-slice,Delicious NYC Cheese Slice made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,5,,15,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,CP-10,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Spicy Ramen,Aiko,Main Menu,spicy-ramen,Delicious Spicy Ramen made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,15,,35,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-01,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Pork Bao,Aiko,Main Menu,pork-bao,Delicious Pork Bao made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",30,10,,40,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-02,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Matcha Cheesecake,Aiko,Main Menu,matcha-cheesecake,Delicious Matcha Cheesecake made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",40,,,40,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-03,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Gyoza Platter,Aiko,Main Menu,gyoza-platter,Delicious Gyoza Platter made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",25,8,,33,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-04,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Chicken Katsu,Aiko,Main Menu,chicken-katsu,Delicious Chicken Katsu made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,15,,35,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-05,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Miso Soup,Aiko,Main Menu,miso-soup,Delicious Miso Soup made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",5,10,,15,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-06,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Tempura Udon,Aiko,Main Menu,tempura-udon,Delicious Tempura Udon made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,12,,27,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-07,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Salmon Nigiri,Aiko,Main Menu,salmon-nigiri,Delicious Salmon Nigiri made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,,,15,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-08,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Yakitori Skewers,Aiko,Main Menu,yakitori-skewers,Delicious Yakitori Skewers made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,10,,30,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-09,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Dan Dan Noodles,Aiko,Main Menu,dan-dan-noodles,Delicious Dan Dan Noodles made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,15,,30,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,AK-10,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Dal Makhani,Beshak,Main Menu,dal-makhani,Delicious Dal Makhani made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,120,,140,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-01,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Garlic Naan,Beshak,Main Menu,garlic-naan,Delicious Garlic Naan made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,5,,20,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-02,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Chicken Tikka,Beshak,Main Menu,chicken-tikka,Delicious Chicken Tikka made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",30,15,,45,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-03,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Palak Paneer,Beshak,Main Menu,palak-paneer,Delicious Palak Paneer made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,25,,45,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-04,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Biryani Bowl,Beshak,Main Menu,biryani-bowl,Delicious Biryani Bowl made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",40,45,,85,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-05,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Samosa Chaat,Beshak,Main Menu,samosa-chaat,Delicious Samosa Chaat made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,10,,30,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-06,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Gulab Jamun,Beshak,Main Menu,gulab-jamun,Delicious Gulab Jamun made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,20,,35,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-07,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Mango Lassi,Beshak,Main Menu,mango-lassi,Delicious Mango Lassi made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",5,,,5,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-08,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Lamb Rogan Josh,Beshak,Main Menu,lamb-rogan-josh,Delicious Lamb Rogan Josh made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",30,90,,120,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-09,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Tandoori Roti,Beshak,Main Menu,tandoori-roti,Delicious Tandoori Roti made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,5,,15,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,BS-10,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Ghost Pepper Sauce,Ghaslet,Main Menu,ghost-pepper-sauce,Delicious Ghost Pepper Sauce made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,30,,45,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-01,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Smoked Jalapeno,Ghaslet,Main Menu,smoked-jalapeno,Delicious Smoked Jalapeno made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,20,,30,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-02,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Garlic Habanero,Ghaslet,Main Menu,garlic-habanero,Delicious Garlic Habanero made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,25,,35,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-03,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Spicy Mayo,Ghaslet,Main Menu,spicy-mayo,Delicious Spicy Mayo made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",5,,,5,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-04,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Chili Crisp Oil,Ghaslet,Main Menu,chili-crisp-oil,Delicious Chili Crisp Oil made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,45,,55,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-05,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Mango Reaper,Ghaslet,Main Menu,mango-reaper,Delicious Mango Reaper made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",15,25,,40,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-06,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Fermented Sriracha,Ghaslet,Main Menu,fermented-sriracha,Delicious Fermented Sriracha made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",20,120,,140,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-07,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Green Chili Chutney,Ghaslet,Main Menu,green-chili-chutney,Delicious Green Chili Chutney made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",10,,,10,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-08,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Sichuan Pepper Rub,Ghaslet,Main Menu,sichuan-pepper-rub,Delicious Sichuan Pepper Rub made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",5,,,5,,1 portion (~250g),,,,Vegetarian,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-09,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"
+,Extra Hot Ketchup,Ghaslet,Main Menu,extra-hot-ketchup,Delicious Extra Hot Ketchup made fresh.,,"100g Primary Ingredient
+50g Secondary Ingredient
+5g Salt",Chop all ingredients finely.,"Cook on medium heat until golden.
+Plate and serve hot.",5,15,,20,,1 portion (~250g),,,,,,,,,,,,,,,,,,"Chef knife, Cutting board, Pan",,,Published,No,GH-10,1,Bookends Culinary,Husen Khan,2026-09-21,2027-09-21,"Prepare ingredients
+Sanitize station
+Gather tools","Serve in standard bowl.
+Garnish with fresh herbs.","Serve immediately.
+Do not hold.","Contains: Gluten, Dairy"

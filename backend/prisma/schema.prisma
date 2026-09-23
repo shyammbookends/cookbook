@@ -1,0 +1,527 @@
+// Bookends Hospitality — multi-brand recipe platform
+// See /docs/architecture.md (from the approved plan) for the full design rationale.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../frontend/src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────────────────────────────────
+
+enum BrandStatus {
+  ACTIVE
+  HIDDEN
+}
+
+enum RecipeStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum StepPhase {
+  PREP
+  COOK
+  FINISH
+}
+
+enum AdminRole {
+  OWNER
+  ADMIN
+  EDITOR
+}
+
+enum MediaKind {
+  IMAGE
+  VIDEO
+}
+
+enum MediaStatus {
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum ImportStatus {
+  UPLOADED
+  MAPPING
+  VALIDATING
+  READY
+  IMPORTING
+  COMPLETED
+  COMPLETED_WITH_ERRORS
+  FAILED
+  CANCELLED
+  ROLLED_BACK
+}
+
+enum ImportRowStatus {
+  VALID
+  WARNING
+  ERROR
+  DUPLICATE
+  IMPORTED
+  SKIPPED
+  FAILED
+}
+
+enum FieldType {
+  TEXT
+  LONGTEXT
+  NUMBER
+  BOOLEAN
+  SELECT
+  MULTISELECT
+  URL
+  DATE
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Auth (hand-rolled: Admin + Session). Kept intentionally small — this is an
+// admin-only system, not a public user system (see §25 for future User model).
+// ─────────────────────────────────────────────────────────────────────────
+
+model Admin {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         AdminRole @default(EDITOR)
+  totpSecret   String? // set once 2FA is enabled
+  totpEnabled  Boolean   @default(false)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sessions        Session[]
+  createdRecipes  Recipe[]     @relation("RecipeCreatedBy")
+  updatedRecipes  Recipe[]     @relation("RecipeUpdatedBy")
+  uploadedMedia   Media[]
+  importJobs      ImportJob[]
+  auditLogs       AuditLog[]
+  loginAttempts   LoginAttempt[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  ipAddress String?
+  userAgent String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+}
+
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  adminId   String?
+  admin     Admin?   @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  ipAddress String
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+  @@index([ipAddress, createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Brand
+// ─────────────────────────────────────────────────────────────────────────
+
+model Brand {
+  id             String      @id @default(cuid())
+  slug           String      @unique
+  name           String
+  number         Int
+  eyebrow        String? // "THE FLAGSHIP", "THE SLOW-BURN FAVOURITE"…
+  tagline        String? // "Hot pies · Big slices · Very little nonsense"
+  quote          String? // italic serif line from the brand-book card
+  description    String?
+  handle         String? // @pizza.capiche
+  followerLabel  String? // "~22.1K" (display text, not a live count)
+  status         BrandStatus @default(ACTIVE)
+  theme          Json // validated against lib/schemas/theme.ts (BrandThemeSchema)
+  logoId         String?
+  logo           Media?      @relation("BrandLogo", fields: [logoId], references: [id], onDelete: SetNull)
+  markId         String?
+  mark           Media?      @relation("BrandMark", fields: [markId], references: [id], onDelete: SetNull)
+  ogImageId      String?
+  ogImage        Media?      @relation("BrandOgImage", fields: [ogImageId], references: [id], onDelete: SetNull)
+  seoTitle       String?
+  seoDescription String?
+  domain         String?     @unique
+  sortOrder      Int         @default(0)
+
+  // Brand-voice content — from the group's brand understanding doc, shown on
+  // the brand's public "About/identity" section. Kept separate from the
+  // internal-only strategy content (audience data, content-pillar cadence,
+  // do/avoid rules) in that doc, which is for the marketing team, not visitors.
+  personality String? // one line: "the charismatic friend who knows everyone at the party"
+  moodFeel    String? // one line: "hot, fast, fun — my spot, my people"
+  promise     String? // the brand promise line, e.g. "Hot pies, big slices, very little nonsense."
+  voiceWords  String[] @default([]) // 5 words that define the voice
+  sampleLines String[] @default([]) // real captured caption lines, shown as a quote wall
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categories Category[]
+  tags       Tag[]
+  recipes    Recipe[]
+  fields     FieldDefinition[]
+
+  @@unique([id, slug])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Taxonomy (brand-scoped)
+// ─────────────────────────────────────────────────────────────────────────
+
+model Category {
+  id          String  @id @default(cuid())
+  brandId     String
+  brand       Brand   @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  slug        String
+  name        String
+  description String?
+  imageId     String?
+  image       Media?  @relation(fields: [imageId], references: [id], onDelete: SetNull)
+  sortOrder   Int     @default(0)
+
+  recipes Recipe[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([brandId, slug])
+  @@unique([id, brandId])
+}
+
+model Tag {
+  id      String @id @default(cuid())
+  brandId String
+  brand   Brand  @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  slug    String
+  name    String
+
+  recipeTags RecipeTag[]
+
+  @@unique([brandId, slug])
+  @@unique([id, brandId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Recipe (the fixed core; flexible extras live in customFields, see FieldDefinition)
+// ─────────────────────────────────────────────────────────────────────────
+
+model Recipe {
+  id         String  @id @default(cuid())
+  brandId    String
+  brand      Brand   @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId, brandId], references: [id, brandId], onDelete: Restrict)
+
+  externalId String? // stable key from Excel, enables upsert-on-reimport
+
+  slug     String
+  title    String
+  subtitle String?
+  excerpt  String? // card copy, ≤200 chars (enforced in Zod)
+
+  description String? // limited Markdown, sanitized on render
+
+  heroImageId String?
+  heroImage   Media? @relation("RecipeHero", fields: [heroImageId], references: [id], onDelete: SetNull)
+
+  prepMinutes  Int?
+  cookMinutes  Int?
+  restMinutes  Int?
+  totalMinutes Int? // defaults to prep+cook+rest in the service layer, overridable
+
+  servings  Int?
+  yieldText String? // "12 slices"
+
+  difficulty Difficulty?
+  cuisine    String?
+  course     String?
+  dietary    String[] @default([])
+  spiceLevel Int? // 0-5
+  equipment  String[] @default([])
+
+  nutrition Json? // schema.org NutritionInformation shape
+
+  notes String?
+  tips  String?
+
+  dishCode       String?
+  author         String?
+  approvedBy     String?
+  effectiveDate  DateTime?
+  nextReviewDate DateTime?
+  miseEnPlace    String[] @default([])
+  plating        String?
+  holding        String?
+  allergens      String?
+
+  customFields Json @default("{}")
+
+  ingredientText String? // denormalized flat text, feeds full-text search
+
+  // Generated tsvector column + GIN/trigram indexes are created by the raw-SQL
+  // migration 20260921070958_search_and_constraints. Declared here as
+  // Unsupported so `prisma migrate dev` knows about the column and never
+  // proposes dropping it. See prisma/README.md for the raw-SQL-migration rules.
+  search Unsupported("tsvector")?
+
+  status     RecipeStatus @default(DRAFT)
+  publishAt  DateTime? // scheduled publish
+  publishedAt DateTime?
+  featured   Boolean      @default(false)
+
+  seoTitle       String?
+  seoDescription String?
+  noindex        Boolean @default(false)
+
+  importJobId String?
+  importJob   ImportJob? @relation(fields: [importJobId], references: [id], onDelete: SetNull)
+
+  version Int @default(1)
+
+  createdById String?
+  createdBy   Admin?  @relation("RecipeCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById String?
+  updatedBy   Admin?  @relation("RecipeUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ingredients   RecipeIngredient[]
+  steps         RecipeStep[]
+  tags          RecipeTag[]
+  gallery       RecipeMedia[]
+  redirects     SlugRedirect[]
+  importRows    ImportRow[]
+
+  @@unique([id, brandId])
+  @@index([brandId, status, publishedAt(sort: Desc)])
+  @@index([brandId, categoryId, status])
+  @@index([importJobId])
+}
+
+model RecipeIngredient {
+  id         String  @id @default(cuid())
+  recipeId   String
+  recipe     Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  position   Int
+  groupLabel String? // "For the sauce"
+  quantity    Decimal? @db.Decimal(10, 3)
+  quantityMax Decimal? @db.Decimal(10, 3) // ranges: "2-3"
+  unit  String?
+  name  String
+  note  String? // "sifted"
+  raw   String // original line as typed/imported, never lost
+
+  @@index([recipeId, position])
+}
+
+model RecipeStep {
+  id           String    @id @default(cuid())
+  recipeId     String
+  recipe       Recipe    @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  phase        StepPhase
+  position     Int
+  title        String?
+  body         String
+  imageId      String?
+  image        Media?    @relation(fields: [imageId], references: [id], onDelete: SetNull)
+  timerMinutes Int?
+
+  @@index([recipeId, phase, position])
+}
+
+model RecipeTag {
+  recipeId String
+  tagId    String
+  brandId  String
+  recipe   Recipe @relation(fields: [recipeId, brandId], references: [id, brandId], onDelete: Cascade)
+  tag      Tag    @relation(fields: [tagId, brandId], references: [id, brandId], onDelete: Cascade)
+
+  @@id([recipeId, tagId])
+  @@index([brandId, tagId])
+}
+
+model RecipeMedia {
+  recipeId String
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  mediaId  String
+  media    Media  @relation("RecipeGallery", fields: [mediaId], references: [id], onDelete: Restrict)
+  position Int
+  caption  String?
+
+  @@id([recipeId, mediaId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Media
+// ─────────────────────────────────────────────────────────────────────────
+
+model Media {
+  id            String      @id @default(cuid())
+  kind          MediaKind   @default(IMAGE)
+  storageKey    String
+  originalName  String
+  mime          String
+  bytes         Int
+  width         Int?
+  height        Int?
+  variants      Json        @default("[]") // [{ w, h, format, key }]
+  blurDataUrl   String?
+  dominantColor String?
+  alt           String?
+  sha256        String
+  sourceUrl     String? // set when fetched from an Excel image URL
+  status        MediaStatus @default(PROCESSING)
+  failureReason String?
+  brandId       String? // library filter only, not an access-control boundary
+  uploadedById  String?
+  uploadedBy    Admin?      @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  deletedAt     DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  brandsAsLogo    Brand[]       @relation("BrandLogo")
+  brandsAsMark    Brand[]       @relation("BrandMark")
+  brandsAsOgImage Brand[]       @relation("BrandOgImage")
+  recipeHeroFor   Recipe[]      @relation("RecipeHero")
+  recipeGalleryOf RecipeMedia[] @relation("RecipeGallery")
+  recipeStepOf    RecipeStep[]
+  categoryOf      Category[]
+
+  @@index([sha256])
+  @@index([brandId, createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Flexible / admin-defined recipe fields
+// ─────────────────────────────────────────────────────────────────────────
+
+model FieldDefinition {
+  id             String    @id @default(cuid())
+  key            String // used as the customFields JSON key
+  label          String
+  type           FieldType
+  options        Json? // for SELECT / MULTISELECT
+  required       Boolean   @default(false)
+  brandId        String? // null = applies to all brands
+  brand          Brand?    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  showOnFrontend Boolean   @default(true)
+  sortOrder      Int       @default(0)
+  importAliases  String[]  @default([])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([brandId, key])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Excel import
+// ─────────────────────────────────────────────────────────────────────────
+
+model ImportJob {
+  id            String       @id @default(cuid())
+  fileKey       String
+  zipKey        String?
+  originalName  String
+  fileHash      String
+  status        ImportStatus @default(UPLOADED)
+  mapping       Json?
+  options       Json?
+  totalRows     Int          @default(0)
+  validRows     Int          @default(0)
+  warningRows   Int          @default(0)
+  errorRows     Int          @default(0)
+  duplicateRows Int          @default(0)
+  importedRows  Int          @default(0)
+  skippedRows   Int          @default(0)
+  createdById   String
+  createdBy     Admin        @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  startedAt     DateTime?
+  finishedAt    DateTime?
+  failureReason String?
+  createdAt     DateTime     @default(now())
+
+  rows    ImportRow[]
+  recipes Recipe[]
+
+  @@index([createdAt])
+  @@index([fileHash])
+}
+
+model ImportRow {
+  id         String          @id @default(cuid())
+  jobId      String
+  job        ImportJob       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  rowNumber  Int
+  raw        Json
+  normalized Json?
+  status     ImportRowStatus
+  issues     Json            @default("[]") // [{ field, column, code, severity, message, suggestion }]
+  recipeId   String?
+  recipe     Recipe?         @relation(fields: [recipeId], references: [id], onDelete: SetNull)
+
+  @@unique([jobId, rowNumber])
+  @@index([jobId, status])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Misc
+// ─────────────────────────────────────────────────────────────────────────
+
+model SlugRedirect {
+  brandId   String
+  fromSlug  String
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([brandId, fromSlug])
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      Admin?   @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String // "recipe.publish", "import.confirm", …
+  entityType String
+  entityId   String
+  diff       Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
