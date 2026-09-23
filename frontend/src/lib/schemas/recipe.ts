@@ -91,6 +91,10 @@ export const RecipeInputSchema = z.object({
   plating: z.string().trim().max(2000).optional().nullable(),
   holding: z.string().trim().max(2000).optional().nullable(),
   allergens: z.string().trim().max(500).optional().nullable(),
+  station: z.string().trim().max(80).optional().nullable(),
+  summary: z.string().trim().max(400).optional().nullable(),
+  sopVersion: z.string().trim().max(20).optional().nullable(),
+  qualityCheck: z.array(z.string().trim().max(200)).default([]),
 
   customFields: z.record(z.string(), z.unknown()).default({}),
 

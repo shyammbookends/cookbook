@@ -7,6 +7,8 @@ import { largestVariantUrl } from "@/lib/media";
 
 export const metadata = { title: "Edit Recipe" };
 
+const PHASE_RANK = { PREP: 0, COOK: 1, FINISH: 2 } as const;
+
 export default async function EditRecipePage(props: PageProps<"/admin/recipes/[id]">) {
   const { id } = await props.params;
 
@@ -18,6 +20,7 @@ export default async function EditRecipePage(props: PageProps<"/admin/recipes/[i
         ingredients: { orderBy: { position: "asc" } },
         steps: { orderBy: { position: "asc" } },
         tags: { include: { tag: true } },
+        gallery: { orderBy: { position: "asc" }, select: { mediaId: true } },
         brand: true,
       },
     }),
@@ -38,10 +41,10 @@ export default async function EditRecipePage(props: PageProps<"/admin/recipes/[i
 
   return (
     <div>
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">{recipe.title}</h1>
-          <p className="text-sm text-white/50">
+          <p className="text-sm text-slate-500">
             {recipe.brand.name} · {recipe.status}
             {recipe.status === "PUBLISHED" && (
               <>
@@ -95,15 +98,18 @@ export default async function EditRecipePage(props: PageProps<"/admin/recipes/[i
           plating: recipe.plating,
           holding: recipe.holding,
           allergens: recipe.allergens,
+          station: recipe.station,
+          summary: recipe.summary,
+          sopVersion: recipe.sopVersion,
+          qualityCheck: recipe.qualityCheck,
           customFields: recipe.customFields as never,
           tagIds: recipe.tags.map((t) => t.tagId),
-          tagNamesInitial: recipe.tags.map((t) => t.tag.name),
           ingredients: recipe.ingredients.map((i) => ({
             position: i.position, groupLabel: i.groupLabel, quantity: i.quantity ? Number(i.quantity) : null,
             quantityMax: i.quantityMax ? Number(i.quantityMax) : null, unit: i.unit, name: i.name, note: i.note, raw: i.raw,
           })),
-          steps: recipe.steps.map((s) => ({ phase: s.phase, position: s.position, title: s.title, body: s.body, imageId: s.imageId, timerMinutes: s.timerMinutes })),
-          galleryMediaIds: [],
+          steps: [...recipe.steps].sort((a, b) => PHASE_RANK[a.phase] - PHASE_RANK[b.phase] || a.position - b.position).map((s) => ({ phase: s.phase, position: s.position, title: s.title, body: s.body, imageId: s.imageId, timerMinutes: s.timerMinutes })),
+          galleryMediaIds: recipe.gallery.map((g) => g.mediaId),
           status: recipe.status,
           publishAt: recipe.publishAt,
           featured: recipe.featured,

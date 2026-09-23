@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { getActiveBrands, getPortalBrand } from "@/server/public/brands";
 import { getLatestRecipes } from "@/server/public/recipes";
@@ -7,8 +6,8 @@ import { SceneCanvas } from "@/components/three/SceneCanvas";
 import { BookshelfScene } from "@/components/three/BookshelfScene";
 import { Reveal } from "@/components/motion/Reveal";
 import { RecipeCard } from "@/components/recipe/RecipeCard";
-import { BrandVoice } from "@/components/recipe/BrandVoice";
 import { SecretAdminButton } from "@/components/portal/SecretAdminButton";
+import { BrandCardLink, PortalPageFade } from "@/components/portal/BrandCardLink";
 
 export async function generateMetadata(): Promise<Metadata> {
   const portal = await getPortalBrand();
@@ -29,6 +28,7 @@ export default async function HomePage() {
 
   return (
     <div data-brand={portal?.slug} style={cssVars as React.CSSProperties} className="min-h-screen bg-brand-bg text-brand-fg transition-colors duration-1000 overflow-x-hidden">
+      <PortalPageFade>
       <SecretAdminButton />
       <section className="relative overflow-hidden">
         <div
@@ -58,14 +58,6 @@ export default async function HomePage() {
 
       </section>
 
-      <BrandVoice
-        personality={portal?.personality}
-        moodFeel={portal?.moodFeel}
-        promise={portal?.promise}
-        voiceWords={portal?.voiceWords}
-        sampleLines={portal?.sampleLines}
-      />
-
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <Reveal>
           <h2 className="mb-10 text-center text-3xl font-bold">Four houses, one kitchen</h2>
@@ -75,12 +67,17 @@ export default async function HomePage() {
             const brandTheme = BrandThemeSchema.parse(brand.theme);
             return (
               <Reveal key={brand.id} delay={i * 0.06} className="h-full">
-                <Link
+                <BrandCardLink
                   href={`/${brand.slug}`}
                   className="group relative flex flex-col h-full overflow-hidden rounded-3xl p-8 transition-transform duration-300 hover:-translate-y-1"
                   style={themeToCssVars(brandTheme) as React.CSSProperties}
                 >
-                  <div className="relative p-6 sm:p-8 flex flex-col flex-1" style={{ background: "var(--brand-bg)", color: "var(--brand-fg)", borderRadius: "1.5rem" }}>
+                  <div className="relative isolate overflow-hidden p-6 sm:p-8 flex flex-col flex-1" style={{ background: "var(--brand-bg)", color: "var(--brand-fg)", borderRadius: "1.5rem" }}>
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 -z-10 origin-bottom scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform group-hover:scale-y-100 group-focus-visible:scale-y-100 motion-reduce:scale-y-100 motion-reduce:opacity-0 motion-reduce:transition-opacity motion-reduce:group-hover:opacity-100"
+                      style={{ background: "color-mix(in srgb, var(--brand-accent) 12%, transparent)" }}
+                    />
                     <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
                       <span className="eyebrow" style={{ color: "var(--brand-accent)" }}>
                         BRAND {String(brand.number).padStart(2, "0")} {brand.eyebrow ? `/ ${brand.eyebrow}` : ""}
@@ -118,7 +115,7 @@ export default async function HomePage() {
                       Enter {brand.name} →
                     </span>
                   </div>
-                </Link>
+                </BrandCardLink>
               </Reveal>
             );
           })}
@@ -130,6 +127,7 @@ export default async function HomePage() {
       <footer className="border-t border-white/10 py-10 text-center text-sm text-brand-fg/50">
         © {new Date().getFullYear()} Bookends Hospitality
       </footer>
+      </PortalPageFade>
     </div>
   );
 }

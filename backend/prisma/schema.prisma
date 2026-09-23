@@ -279,6 +279,10 @@ model Recipe {
   plating        String?
   holding        String?
   allergens      String?
+  station        String? // "Cold Station" — shown beside the category in the SOP header
+  summary        String? // short editorial line in the SOP summary area
+  sopVersion     String? // human SOP version ("2.1"); falls back to `version` when empty
+  qualityCheck   String[] @default([])
 
   customFields Json @default("{}")
 

@@ -1,9 +1,17 @@
 import "server-only";
 import { db } from "@/server/db";
-import type { Category, Tag } from "@/generated/prisma/client";
+import type { Category, Tag, Prisma } from "@/generated/prisma/client";
 
-export async function getBrandCategories(brandId: string): Promise<Category[]> {
-  return db.category.findMany({ where: { brandId }, orderBy: { sortOrder: "asc" } });
+export type CategoryWithImage = Prisma.CategoryGetPayload<{
+  include: { image: { select: { id: true, storageKey: true, sourceUrl: true } } };
+}>;
+
+export async function getBrandCategories(brandId: string): Promise<CategoryWithImage[]> {
+  return db.category.findMany({
+    where: { brandId },
+    include: { image: { select: { id: true, storageKey: true, sourceUrl: true } } },
+    orderBy: { sortOrder: "asc" },
+  });
 }
 
 /** Resolves by (brandId, slug) so /aiko/category/pizza never matches Capiche's category. */
