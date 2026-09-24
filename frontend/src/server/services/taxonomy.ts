@@ -53,13 +53,15 @@ export async function updateCategory(id: string, input: CategoryInput) {
 }
 
 export async function deleteCategory(id: string) {
-  const category = await db.category.findUnique({ where: { id }, include: { _count: { select: { recipes: true } } } });
+  const category = await db.category.findUnique({ where: { id } });
   if (!category) throw new NotFoundError("Category");
-  if (category._count.recipes > 0) {
-    throw new ValidationError(
-      `This category has ${category._count.recipes} recipe(s). Move them to another category first.`,
-    );
-  }
+
+  // Unlink all recipes (active or trashed) referencing this category so deletion never fails
+  await db.recipe.updateMany({
+    where: { categoryId: id },
+    data: { categoryId: null },
+  });
+
   await db.category.delete({ where: { id } });
   await revalidateBrand(category.brandId);
 }

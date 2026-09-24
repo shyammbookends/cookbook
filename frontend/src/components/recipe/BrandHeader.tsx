@@ -1,26 +1,51 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { Brand } from "@/generated/prisma/client";
 
+import { BeshakLogo } from "@/components/brand/BeshakLogo";
+import { GhasletLogo } from "@/components/brand/GhasletLogo";
+
 export function BrandHeader({ brand }: { brand: Brand }) {
+  const pathname = usePathname();
+  const isBrandHome = pathname === `/${brand.slug}`;
+  const backHref = isBrandHome ? "/" : `/${brand.slug}`;
+  const backLabel = isBrandHome ? "Portal" : brand.name;
+
   return (
     <header className="sticky top-0 z-30 bg-black text-white print:hidden">
       <div className="mx-auto flex w-full max-w-7xl items-center px-4 py-4 sm:px-6">
         <Link 
-          href="/" 
+          href={backHref} 
           className="mr-6 flex items-center text-sm font-medium opacity-80 hover:opacity-100 transition-opacity"
-          aria-label="Back to Portal"
+          aria-label={isBrandHome ? "Back to Portal" : `Back to ${brand.name}`}
         >
           <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          <span className="hidden sm:inline">Portal</span>
+          <span className="hidden sm:inline">{backLabel}</span>
         </Link>
         <Link 
           href={`/${brand.slug}`} 
-          className="text-3xl font-bold tracking-tight text-brand-bg font-[family-name:var(--font-script)]"
-          style={{ color: 'var(--brand-bg)' }}
+          className="flex items-center"
         >
-          {brand.name}
+          {brand.slug === "beshak" ? (
+            <BeshakLogo color="white" className="h-6 sm:h-7 w-auto" />
+          ) : brand.slug === "ghaslet" ? (
+            <GhasletLogo className="h-10 sm:h-12 w-auto" />
+          ) : (
+            <span
+              className={`text-2xl sm:text-3xl font-bold ${
+                brand.slug === "aiko" ? "font-[family-name:var(--font-marker)] tracking-wide" : "tracking-tight"
+              }`}
+              style={{
+                color: brand.slug === "aiko" ? "var(--brand-bg, #EFB22C)" : "var(--brand-fg, #ffffff)",
+              }}
+            >
+              {brand.name}
+            </span>
+          )}
         </Link>
         {/* Empty div for right-side balance if needed in future */}
         <div className="flex-1"></div>

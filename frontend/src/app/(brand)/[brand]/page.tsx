@@ -2,10 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getActiveBrandBySlug } from "@/server/public/brands";
 import { getBrandCategories } from "@/server/public/taxonomy";
-import { listRecipes } from "@/server/public/recipes";
-import { RecipeGrid } from "@/components/recipe/RecipeCard";
 import { BrandThemeSchema } from "@/lib/schemas/theme";
 import { Reveal } from "@/components/motion/Reveal";
+import { BeshakLogo } from "@/components/brand/BeshakLogo";
+import { GhasletLogo } from "@/components/brand/GhasletLogo";
 
 export default async function BrandHomePage(props: PageProps<"/[brand]">) {
   const { brand: slug } = await props.params;
@@ -13,30 +13,37 @@ export default async function BrandHomePage(props: PageProps<"/[brand]">) {
   if (!brand) notFound();
 
   const theme = BrandThemeSchema.parse(brand.theme);
-  const [categories, { items: recipes }] = await Promise.all([
-    getBrandCategories(brand.id),
-    listRecipes(brand.id, { take: 12 }),
-  ]);
+  const categories = await getBrandCategories(brand.id);
 
   return (
     <>
       <section className="relative flex min-h-[50vh] flex-col items-center justify-center overflow-hidden py-12">
         <Reveal>
-          <h1 
-            className="text-7xl font-bold tracking-tight sm:text-[10rem] md:text-[12rem] text-center" 
-            style={{ 
-              fontFamily: {
-                script: 'var(--font-script)',
-                marker: 'var(--font-marker)',
-                'flared-serif': 'var(--font-flared)',
-                grotesk: 'var(--font-display)',
-                heavy: 'var(--font-display)',
-              }[theme.fontDisplay] || 'var(--font-display)',
-              lineHeight: 1
-            }}
-          >
-            {brand.name}
-          </h1>
+          {brand.slug === "beshak" ? (
+            <div className="flex justify-center px-4 w-full">
+              <BeshakLogo color="white" className="w-full max-w-[500px] sm:max-w-[700px] md:max-w-[850px] h-auto drop-shadow-xl" />
+            </div>
+          ) : brand.slug === "ghaslet" ? (
+            <div className="flex justify-center px-4 w-full">
+              <GhasletLogo className="w-full max-w-[280px] sm:max-w-[380px] md:max-w-[440px] h-auto drop-shadow-2xl" />
+            </div>
+          ) : (
+            <h1 
+              className="text-7xl font-bold tracking-tight sm:text-[10rem] md:text-[12rem] text-center" 
+              style={{ 
+                fontFamily: {
+                  script: 'var(--font-script)',
+                  marker: 'var(--font-marker)',
+                  'flared-serif': 'var(--font-flared)',
+                  grotesk: 'var(--font-display)',
+                  heavy: 'var(--font-display)',
+                }[theme.fontDisplay] || 'var(--font-display)',
+                lineHeight: 1,
+              }}
+            >
+              {brand.name}
+            </h1>
+          )}
         </Reveal>
         {brand.tagline && (
           <Reveal>
@@ -81,21 +88,6 @@ export default async function BrandHomePage(props: PageProps<"/[brand]">) {
           </div>
         </section>
       )}
-
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <Reveal>
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-3xl font-bold tracking-tight">Recipes</h2>
-            <Link
-              href={`/${brand.slug}/recipes`}
-              className="text-sm font-semibold text-brand-accent hover:underline"
-            >
-              View All Recipes →
-            </Link>
-          </div>
-        </Reveal>
-        <RecipeGrid brandSlug={brand.slug} recipes={recipes} />
-      </section>
     </>
   );
 }

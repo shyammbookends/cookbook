@@ -4,6 +4,7 @@ import { getActiveBrandBySlug } from "@/server/public/brands";
 import { getBrandCategoryBySlug } from "@/server/public/taxonomy";
 import { listRecipes } from "@/server/public/recipes";
 import { RecipeGrid } from "@/components/recipe/RecipeCard";
+import { DownloadCategoryPdfButton } from "@/components/recipe/DownloadCategoryPdfButton";
 
 export async function generateMetadata(props: PageProps<"/[brand]/category/[slug]">): Promise<Metadata> {
   const { brand: brandSlug, slug } = await props.params;
@@ -27,8 +28,17 @@ export default async function CategoryPage(props: PageProps<"/[brand]/category/[
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <p className="eyebrow text-brand-accent">Category</p>
-      <h1 className="mb-8 text-3xl font-bold">{category.name}</h1>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="eyebrow text-brand-accent">Category</p>
+          <h1 className="mb-8 text-3xl font-bold">{category.name}</h1>
+        </div>
+        <DownloadCategoryPdfButton
+          brandSlug={brand.slug}
+          categorySlug={slug}
+          categoryName={category.name}
+        />
+      </div>
       {category.description && <p className="quote-serif mb-8 max-w-2xl text-brand-fg/70">{category.description}</p>}
       <RecipeGrid brandSlug={brand.slug} recipes={items} />
     </div>

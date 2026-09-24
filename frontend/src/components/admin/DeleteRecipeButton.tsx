@@ -21,7 +21,7 @@ export function DeleteRecipeButton({ id }: { id: string }) {
     <button
       onClick={handleDelete}
       disabled={isPending}
-      className="text-red-400 hover:text-red-300 disabled:opacity-50"
+      className="text-red-600 hover:text-red-700 disabled:opacity-50"
       title="Delete recipe"
     >
       {isPending ? "..." : "Trash"}

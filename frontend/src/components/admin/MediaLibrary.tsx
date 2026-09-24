@@ -10,6 +10,7 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [brandId, setBrandId] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [url, setUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -47,6 +48,16 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
     });
   }
 
+  const filteredMedia = initialMedia.filter((m) => {
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      const altMatch = m.alt ? m.alt.toLowerCase().includes(q) : false;
+      const urlMatch = m.url ? m.url.toLowerCase().includes(q) : false;
+      if (!altMatch && !urlMatch) return false;
+    }
+    return true;
+  });
+
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center gap-4 rounded-2xl border border-slate-200 bg-white shadow-sm p-5">
@@ -54,6 +65,23 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
           <option value="">Library filter: any brand</option>
           {brands.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
         </select>
+
+        <div className="relative flex-1 min-w-[200px] max-w-xs">
+          <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search media by alt or filename…"
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 pl-3 pr-8 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2 top-2.5 text-xs text-slate-400 hover:text-slate-600"
+            >
+              ✕
+            </button>
+          )}
+        </div>
         
         <div className="relative">
           <input type="file" accept="image/*" multiple disabled={pending} onChange={(e) => handleUpload(e.target.files)} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-colors" />
@@ -67,7 +95,7 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
       {error && <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600 border border-red-100 shadow-sm">{error}</p>}
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
-        {initialMedia.map((m) => (
+        {filteredMedia.map((m) => (
           <div key={m.id} className="group relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-sm">
             {m.url ? (
               <img src={m.url} alt={m.alt ?? ""} className="aspect-square w-full object-cover" />
@@ -83,7 +111,7 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
           </div>
         ))}
       </div>
-      {initialMedia.length === 0 && <p className="text-slate-400 text-center py-10 border border-slate-200 border-dashed rounded-2xl bg-white shadow-sm">No media uploaded yet.</p>}
+      {filteredMedia.length === 0 && <p className="text-slate-400 text-center py-10 border border-slate-200 border-dashed rounded-2xl bg-white shadow-sm">No media found.</p>}
     </div>
   );
 }

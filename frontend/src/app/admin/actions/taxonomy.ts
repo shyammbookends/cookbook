@@ -17,6 +17,7 @@ export async function createCategoryAction(input: CategoryInput): Promise<Action
     await requireAdmin("EDITOR");
     const cat = await taxonomyService.createCategory(taxonomyService.CategoryInputSchema.parse(input));
     revalidatePath("/admin/categories");
+    revalidatePath("/", "layout");
     return { ok: true, data: { id: cat.id } };
   } catch (err) {
     return fail(err);
@@ -28,6 +29,7 @@ export async function updateCategoryAction(id: string, input: CategoryInput): Pr
     await requireAdmin("EDITOR");
     const cat = await taxonomyService.updateCategory(id, taxonomyService.CategoryInputSchema.parse(input));
     revalidatePath("/admin/categories");
+    revalidatePath("/", "layout");
     return { ok: true, data: { id: cat.id } };
   } catch (err) {
     return fail(err);
@@ -39,6 +41,7 @@ export async function deleteCategoryAction(id: string): Promise<ActionResult> {
     await requireAdmin("EDITOR");
     await taxonomyService.deleteCategory(id);
     revalidatePath("/admin/categories");
+    revalidatePath("/", "layout");
     return { ok: true, data: undefined };
   } catch (err) {
     return fail(err);

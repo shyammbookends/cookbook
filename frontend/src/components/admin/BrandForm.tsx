@@ -27,8 +27,8 @@ export function BrandForm({ id, initial }: { id?: string; initial?: Partial<Form
   });
 
   const theme = watch("theme");
-  const inputCls = "w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#C6E86B]";
-  const labelCls = "mb-1 block text-xs text-white/50";
+  const inputCls = "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-[#C6E86B]";
+  const labelCls = "mb-1 block text-xs text-slate-500";
 
   function onSubmit(raw: FormValues) {
     setError(null);
@@ -47,7 +47,7 @@ export function BrandForm({ id, initial }: { id?: string; initial?: Partial<Form
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_320px]">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5">
           <div className="grid grid-cols-2 gap-3">
             <div><label className={labelCls}>Name</label><input {...register("name")} className={inputCls} /></div>
             <div><label className={labelCls}>Slug</label><input {...register("slug")} className={inputCls} /></div>
@@ -62,9 +62,9 @@ export function BrandForm({ id, initial }: { id?: string; initial?: Partial<Form
           <div className="mt-3"><label className={labelCls}>Description</label><textarea {...register("description")} rows={3} className={inputCls} /></div>
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5">
           <h2 className="mb-4 font-semibold">Brand voice</h2>
-          <p className="mb-4 text-xs text-white/50">Shown on the brand&apos;s public page — its personality, mood, promise and real caption-style lines.</p>
+          <p className="mb-4 text-xs text-slate-500">Shown on the brand&apos;s public page — its personality, mood, promise and real caption-style lines.</p>
           <div><label className={labelCls}>Personality (one line)</label><input {...register("personality")} placeholder="The charismatic friend who knows everyone at the party" className={inputCls} /></div>
           <div className="mt-3"><label className={labelCls}>Mood &amp; feel (one line)</label><input {...register("moodFeel")} placeholder="Hot, fast, fun — my spot, my people" className={inputCls} /></div>
           <div className="mt-3"><label className={labelCls}>Promise</label><input {...register("promise")} placeholder="Hot pies, big slices, very little nonsense." className={inputCls} /></div>
@@ -101,14 +101,14 @@ export function BrandForm({ id, initial }: { id?: string; initial?: Partial<Form
           </div>
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5">
           <h2 className="mb-4 font-semibold">Theme colours</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {(["bg", "fg", "numeral", "accent", "accentSoft", "cardBg", "cardFg", "muted"] as const).map((key) => (
               <div key={key}>
                 <label className={labelCls}>{key}</label>
                 <div className="flex items-center gap-2">
-                  <input type="color" {...register(`theme.${key}`)} className="h-8 w-10 rounded border border-white/15 bg-transparent" />
+                  <input type="color" {...register(`theme.${key}`)} className="h-8 w-10 rounded border border-slate-300 bg-transparent" />
                   <input {...register(`theme.${key}`)} className={`${inputCls} flex-1`} />
                 </div>
               </div>
@@ -144,20 +144,20 @@ export function BrandForm({ id, initial }: { id?: string; initial?: Partial<Form
           </div>
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5">
           <h2 className="mb-4 font-semibold">SEO</h2>
           <div><label className={labelCls}>SEO title</label><input {...register("seoTitle")} className={inputCls} /></div>
           <div className="mt-3"><label className={labelCls}>SEO description</label><textarea {...register("seoDescription")} rows={2} className={inputCls} /></div>
         </section>
 
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-sm text-red-600">{error}</p>}
         <button type="submit" disabled={pending} className="rounded-lg bg-[#C6E86B] px-5 py-2 text-sm font-semibold text-[#0A2399] disabled:opacity-60">
           {pending ? "Saving…" : id ? "Save changes" : "Create brand"}
         </button>
       </form>
 
       <aside className="space-y-4">
-        <div className="sticky top-6 rounded-2xl border border-white/10 p-5" style={{ background: theme?.bg, color: theme?.fg }}>
+        <div className="sticky top-6 rounded-2xl border border-slate-200 p-5" style={{ background: theme?.bg, color: theme?.fg }}>
           <p className="eyebrow" style={{ color: theme?.accent }}>Live preview</p>
           <p className="mt-3 text-3xl font-bold">{watch("name") || "Brand name"}</p>
           <p className="quote-serif mt-2 text-sm opacity-80">{watch("quote") || "Quote preview…"}</p>

@@ -8,7 +8,15 @@ export type CategoryWithImage = Prisma.CategoryGetPayload<{
 
 export async function getBrandCategories(brandId: string): Promise<CategoryWithImage[]> {
   return db.category.findMany({
-    where: { brandId },
+    where: {
+      brandId,
+      recipes: {
+        some: {
+          deletedAt: null,
+          status: "PUBLISHED",
+        },
+      },
+    },
     include: { image: { select: { id: true, storageKey: true, sourceUrl: true } } },
     orderBy: { sortOrder: "asc" },
   });

@@ -3,12 +3,12 @@ import { Space_Grotesk, JetBrains_Mono, Source_Serif_4, Caveat, Kalam, Playfair_
 import "./globals.css";
 import { SuppressWarnings } from "@/components/utils/SuppressWarnings";
 
-const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"], weight: ["500", "700"] });
-const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"], weight: ["500"] });
-const sourceSerif = Source_Serif_4({ variable: "--font-source-serif", subsets: ["latin"], style: ["italic", "normal"], weight: ["400", "500"] });
-const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"], weight: ["700"] });
-const kalam = Kalam({ variable: "--font-kalam", subsets: ["latin"], weight: ["700"] });
-const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"], style: ["italic", "normal"], weight: ["500", "700"] });
+const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"] });
+const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });
+const sourceSerif = Source_Serif_4({ variable: "--font-source-serif", subsets: ["latin"] });
+const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"], weight: "700" });
+const kalam = Kalam({ variable: "--font-kalam", subsets: ["latin"], weight: "700" });
+const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: { default: "Bookends Hospitality", template: "%s | Bookends Hospitality" },

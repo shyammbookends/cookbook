@@ -25,7 +25,8 @@ function createClient() {
 }
 
 // Reuse the client across hot reloads in dev so we don't exhaust connections.
-export const db = process.env.NODE_ENV === "production" ? (globalThis.__prisma ?? createClient()) : createClient();
-if (process.env.NODE_ENV === "production") {
+export const db = globalThis.__prisma ?? createClient();
+if (process.env.NODE_ENV !== "production") {
   globalThis.__prisma = db;
 }
+

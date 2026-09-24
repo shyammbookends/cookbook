@@ -30,15 +30,15 @@ export function RecipeActions({
     <div className="flex w-full flex-col items-start gap-2 sm:w-auto sm:items-end">
       <div className="flex flex-wrap gap-2">
         {status !== "PUBLISHED" ? (
-          <button disabled={pending} onClick={() => run(() => setRecipeStatusAction(id, "PUBLISHED"))} className="rounded-lg bg-green-500/20 px-3 py-1.5 text-xs text-green-300 hover:bg-green-500/30">
+          <button disabled={pending} onClick={() => run(() => setRecipeStatusAction(id, "PUBLISHED"))} className="rounded-lg bg-green-500/20 px-3 py-1.5 text-xs text-green-700 hover:bg-green-500/30">
             Publish
           </button>
         ) : (
-          <button disabled={pending} onClick={() => run(() => setRecipeStatusAction(id, "DRAFT"))} className="rounded-lg bg-white/10 px-3 py-1.5 text-xs hover:bg-white/20">
+          <button disabled={pending} onClick={() => run(() => setRecipeStatusAction(id, "DRAFT"))} className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs hover:bg-slate-200">
             Unpublish
           </button>
         )}
-        <select value={dupBrand} onChange={(e) => setDupBrand(e.target.value)} className="rounded-lg border border-white/15 bg-white/5 px-2 text-xs">
+        <select value={dupBrand} onChange={(e) => setDupBrand(e.target.value)} className="rounded-lg border border-slate-300 bg-white px-2 text-xs">
           {brands.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
         </select>
         <button
@@ -50,7 +50,7 @@ export function RecipeActions({
               else setError(result.error);
             })
           }
-          className="rounded-lg bg-white/10 px-3 py-1.5 text-xs hover:bg-white/20"
+          className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs hover:bg-slate-200"
         >
           Duplicate
         </button>
@@ -62,12 +62,12 @@ export function RecipeActions({
               router.push("/admin/recipes");
             }
           }}
-          className="rounded-lg bg-red-500/20 px-3 py-1.5 text-xs text-red-300 hover:bg-red-500/30"
+          className="rounded-lg bg-red-500/20 px-3 py-1.5 text-xs text-red-700 hover:bg-red-500/30"
         >
           Trash
         </button>
       </div>
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
   );
 }

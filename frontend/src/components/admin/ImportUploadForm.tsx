@@ -31,14 +31,14 @@ export function ImportUploadForm() {
   }
 
   return (
-    <div className="rounded-2xl border-2 border-dashed border-white/20 p-10 text-center">
-      <p className="mb-3 text-white/70">Drop your .xlsx/.xls/.csv file here, or</p>
+    <div className="rounded-2xl border-2 border-dashed border-slate-300 p-10 text-center">
+      <p className="mb-3 text-slate-700">Drop your .xlsx/.xls/.csv file here, or</p>
       <label className="inline-block cursor-pointer rounded-lg bg-[#C6E86B] px-5 py-2 text-sm font-semibold text-[#0A2399]">
         Choose file
         <input type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={(e) => handleFile(e.target.files?.[0])} />
       </label>
-      {fileName && <p className="mt-3 text-sm text-white/60">{pending ? "Uploading…" : fileName}</p>}
-      {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+      {fileName && <p className="mt-3 text-sm text-slate-600">{pending ? "Uploading…" : fileName}</p>}
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
     </div>
   );
 }

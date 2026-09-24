@@ -79,8 +79,8 @@ const BRANDS: {
       "authentic without compromise. beshak.",
     ],
     theme: {
-      bg: "#1F2338", fg: "#FFFFFF", numeral: "#3A3F5C", accent: "#D64B2C",
-      cardBg: "#F4EFE7", cardFg: "#1F2338", muted: "#B7BAD0",
+      bg: "#D4452F", fg: "#FFFFFF", numeral: "#9E2D1B", accent: "#FFFFFF", accentSoft: "#FFD4CC",
+      cardBg: "#FAF5F0", cardFg: "#1F1412", muted: "#F8D1CA",
       fontDisplay: "flared-serif", fontBody: "sans", motion: "calm",
     },
   },

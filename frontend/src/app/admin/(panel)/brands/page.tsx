@@ -21,7 +21,7 @@ export default async function AdminBrandsPage() {
             <Link
               key={b.id}
               href={`/admin/brands/${b.id}`}
-              className="overflow-hidden rounded-2xl border border-white/10"
+              className="overflow-hidden rounded-2xl border border-slate-200"
               style={{ background: theme.bg, color: theme.fg }}
             >
               <div className="p-5">

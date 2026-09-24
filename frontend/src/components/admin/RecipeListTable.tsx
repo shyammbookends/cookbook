@@ -92,7 +92,7 @@ export function RecipeListTable({ recipes }: { recipes: RecipeItem[] }) {
                 </td>
                 <td className="p-3">
                   <Link href={`/admin/recipes/${r.id}`} className="hover:underline font-medium text-slate-800 hover:text-blue-600">
-                    {!r.heroImageId && <span className="mr-1 text-amber-400" title="Missing hero image">⚠</span>}
+                    {!r.heroImageId && <span className="mr-1 text-amber-600" title="Missing hero image">⚠</span>}
                     {r.title}
                   </Link>
                 </td>
