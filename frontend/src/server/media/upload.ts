@@ -7,6 +7,13 @@ import { UploadError } from "@/server/media/errors";
 import { Prisma } from "@/generated/prisma/client";
 import type { Media } from "@/generated/prisma/client";
 
+/** Display-only name: no path parts, control chars or odd characters; the file is never written under this name. */
+export function sanitizeFilename(name: string): string {
+  const base = name.split(/[\\/]/).pop() ?? "";
+  const clean = base.replace(/[^\p{L}\p{N}._ -]/gu, "_").replace(/^\.+/, "").slice(0, 120);
+  return clean || "image";
+}
+
 export async function uploadImage(opts: {
   buffer: Buffer;
   originalName: string;
@@ -26,7 +33,7 @@ export async function uploadImage(opts: {
     data: {
       kind: "IMAGE",
       storageKey: "",
-      originalName: opts.originalName,
+      originalName: sanitizeFilename(opts.originalName),
       mime,
       bytes: opts.buffer.byteLength,
       sha256: sha256Peek,

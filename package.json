@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev ./frontend",
-    "build": "next build ./frontend",
+    "build": "prisma generate --schema=backend/prisma/schema.prisma && next build ./frontend",
     "start": "next start ./frontend",
     "lint": "eslint",
+    "db:deploy": "prisma migrate deploy --config=backend/prisma.config.ts",
     "db:migrate": "prisma migrate dev --schema=backend/prisma/schema.prisma",
     "db:generate": "prisma generate --schema=backend/prisma/schema.prisma",
     "db:seed": "tsx backend/prisma/seed.ts",

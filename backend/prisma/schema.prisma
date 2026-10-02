@@ -427,6 +427,23 @@ model Media {
   @@index([brandId, createdAt])
 }
 
+/// Encrypted file bytes (AES-256-GCM) for the `db` storage driver. One row per stored
+/// file (each image variant, each import workbook). The key is NEVER stored here.
+model MediaBlob {
+  key         String   @id // storage key, e.g. "media/<mediaId>/640.webp"
+  mediaId     String? // owning Media row (null for non-image files such as import workbooks)
+  contentType String
+  data        Bytes // ciphertext
+  iv          Bytes // 12-byte GCM nonce, unique per file
+  authTag     Bytes // 16-byte GCM tag
+  keyVersion  Int      @default(1)
+  plainBytes  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([mediaId])
+}
+
 // ─────────────────────────────────────────────────────────────────────────
 // Flexible / admin-defined recipe fields
 // ─────────────────────────────────────────────────────────────────────────

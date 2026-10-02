@@ -322,6 +322,19 @@ exports.Prisma.MediaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MediaBlobScalarFieldEnum = {
+  key: 'key',
+  mediaId: 'mediaId',
+  contentType: 'contentType',
+  data: 'data',
+  iv: 'iv',
+  authTag: 'authTag',
+  keyVersion: 'keyVersion',
+  plainBytes: 'plainBytes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FieldDefinitionScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -510,6 +523,7 @@ exports.Prisma.ModelName = {
   RecipeTag: 'RecipeTag',
   RecipeMedia: 'RecipeMedia',
   Media: 'Media',
+  MediaBlob: 'MediaBlob',
   FieldDefinition: 'FieldDefinition',
   ImportJob: 'ImportJob',
   ImportRow: 'ImportRow',

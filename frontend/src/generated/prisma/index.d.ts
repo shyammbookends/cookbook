@@ -74,6 +74,12 @@ export type RecipeMedia = $Result.DefaultSelection<Prisma.$RecipeMediaPayload>
  */
 export type Media = $Result.DefaultSelection<Prisma.$MediaPayload>
 /**
+ * Model MediaBlob
+ * Encrypted file bytes (AES-256-GCM) for the `db` storage driver. One row per stored
+ * file (each image variant, each import workbook). The key is NEVER stored here.
+ */
+export type MediaBlob = $Result.DefaultSelection<Prisma.$MediaBlobPayload>
+/**
  * Model FieldDefinition
  * 
  */
@@ -493,6 +499,16 @@ export class PrismaClient<
     * ```
     */
   get media(): Prisma.MediaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.mediaBlob`: Exposes CRUD operations for the **MediaBlob** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MediaBlobs
+    * const mediaBlobs = await prisma.mediaBlob.findMany()
+    * ```
+    */
+  get mediaBlob(): Prisma.MediaBlobDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.fieldDefinition`: Exposes CRUD operations for the **FieldDefinition** model.
@@ -1012,6 +1028,7 @@ export namespace Prisma {
     RecipeTag: 'RecipeTag',
     RecipeMedia: 'RecipeMedia',
     Media: 'Media',
+    MediaBlob: 'MediaBlob',
     FieldDefinition: 'FieldDefinition',
     ImportJob: 'ImportJob',
     ImportRow: 'ImportRow',
@@ -1033,7 +1050,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "admin" | "session" | "loginAttempt" | "brand" | "category" | "tag" | "recipe" | "recipeIngredient" | "recipeStep" | "recipeTag" | "recipeMedia" | "media" | "fieldDefinition" | "importJob" | "importRow" | "slugRedirect" | "setting" | "auditLog"
+      modelProps: "admin" | "session" | "loginAttempt" | "brand" | "category" | "tag" | "recipe" | "recipeIngredient" | "recipeStep" | "recipeTag" | "recipeMedia" | "media" | "mediaBlob" | "fieldDefinition" | "importJob" | "importRow" | "slugRedirect" | "setting" | "auditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1925,6 +1942,80 @@ export namespace Prisma {
           }
         }
       }
+      MediaBlob: {
+        payload: Prisma.$MediaBlobPayload<ExtArgs>
+        fields: Prisma.MediaBlobFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MediaBlobFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MediaBlobFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>
+          }
+          findFirst: {
+            args: Prisma.MediaBlobFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MediaBlobFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>
+          }
+          findMany: {
+            args: Prisma.MediaBlobFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>[]
+          }
+          create: {
+            args: Prisma.MediaBlobCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>
+          }
+          createMany: {
+            args: Prisma.MediaBlobCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MediaBlobCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>[]
+          }
+          delete: {
+            args: Prisma.MediaBlobDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>
+          }
+          update: {
+            args: Prisma.MediaBlobUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>
+          }
+          deleteMany: {
+            args: Prisma.MediaBlobDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MediaBlobUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MediaBlobUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>[]
+          }
+          upsert: {
+            args: Prisma.MediaBlobUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MediaBlobPayload>
+          }
+          aggregate: {
+            args: Prisma.MediaBlobAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMediaBlob>
+          }
+          groupBy: {
+            args: Prisma.MediaBlobGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MediaBlobGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MediaBlobCountArgs<ExtArgs>
+            result: $Utils.Optional<MediaBlobCountAggregateOutputType> | number
+          }
+        }
+      }
       FieldDefinition: {
         payload: Prisma.$FieldDefinitionPayload<ExtArgs>
         fields: Prisma.FieldDefinitionFieldRefs
@@ -2504,6 +2595,7 @@ export namespace Prisma {
     recipeTag?: RecipeTagOmit
     recipeMedia?: RecipeMediaOmit
     media?: MediaOmit
+    mediaBlob?: MediaBlobOmit
     fieldDefinition?: FieldDefinitionOmit
     importJob?: ImportJobOmit
     importRow?: ImportRowOmit
@@ -18414,6 +18506,1109 @@ export namespace Prisma {
 
 
   /**
+   * Model MediaBlob
+   */
+
+  export type AggregateMediaBlob = {
+    _count: MediaBlobCountAggregateOutputType | null
+    _avg: MediaBlobAvgAggregateOutputType | null
+    _sum: MediaBlobSumAggregateOutputType | null
+    _min: MediaBlobMinAggregateOutputType | null
+    _max: MediaBlobMaxAggregateOutputType | null
+  }
+
+  export type MediaBlobAvgAggregateOutputType = {
+    keyVersion: number | null
+    plainBytes: number | null
+  }
+
+  export type MediaBlobSumAggregateOutputType = {
+    keyVersion: number | null
+    plainBytes: number | null
+  }
+
+  export type MediaBlobMinAggregateOutputType = {
+    key: string | null
+    mediaId: string | null
+    contentType: string | null
+    data: Bytes | null
+    iv: Bytes | null
+    authTag: Bytes | null
+    keyVersion: number | null
+    plainBytes: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MediaBlobMaxAggregateOutputType = {
+    key: string | null
+    mediaId: string | null
+    contentType: string | null
+    data: Bytes | null
+    iv: Bytes | null
+    authTag: Bytes | null
+    keyVersion: number | null
+    plainBytes: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MediaBlobCountAggregateOutputType = {
+    key: number
+    mediaId: number
+    contentType: number
+    data: number
+    iv: number
+    authTag: number
+    keyVersion: number
+    plainBytes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MediaBlobAvgAggregateInputType = {
+    keyVersion?: true
+    plainBytes?: true
+  }
+
+  export type MediaBlobSumAggregateInputType = {
+    keyVersion?: true
+    plainBytes?: true
+  }
+
+  export type MediaBlobMinAggregateInputType = {
+    key?: true
+    mediaId?: true
+    contentType?: true
+    data?: true
+    iv?: true
+    authTag?: true
+    keyVersion?: true
+    plainBytes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MediaBlobMaxAggregateInputType = {
+    key?: true
+    mediaId?: true
+    contentType?: true
+    data?: true
+    iv?: true
+    authTag?: true
+    keyVersion?: true
+    plainBytes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MediaBlobCountAggregateInputType = {
+    key?: true
+    mediaId?: true
+    contentType?: true
+    data?: true
+    iv?: true
+    authTag?: true
+    keyVersion?: true
+    plainBytes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MediaBlobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MediaBlob to aggregate.
+     */
+    where?: MediaBlobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MediaBlobs to fetch.
+     */
+    orderBy?: MediaBlobOrderByWithRelationInput | MediaBlobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MediaBlobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MediaBlobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MediaBlobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MediaBlobs
+    **/
+    _count?: true | MediaBlobCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MediaBlobAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MediaBlobSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MediaBlobMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MediaBlobMaxAggregateInputType
+  }
+
+  export type GetMediaBlobAggregateType<T extends MediaBlobAggregateArgs> = {
+        [P in keyof T & keyof AggregateMediaBlob]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMediaBlob[P]>
+      : GetScalarType<T[P], AggregateMediaBlob[P]>
+  }
+
+
+
+
+  export type MediaBlobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MediaBlobWhereInput
+    orderBy?: MediaBlobOrderByWithAggregationInput | MediaBlobOrderByWithAggregationInput[]
+    by: MediaBlobScalarFieldEnum[] | MediaBlobScalarFieldEnum
+    having?: MediaBlobScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MediaBlobCountAggregateInputType | true
+    _avg?: MediaBlobAvgAggregateInputType
+    _sum?: MediaBlobSumAggregateInputType
+    _min?: MediaBlobMinAggregateInputType
+    _max?: MediaBlobMaxAggregateInputType
+  }
+
+  export type MediaBlobGroupByOutputType = {
+    key: string
+    mediaId: string | null
+    contentType: string
+    data: Bytes
+    iv: Bytes
+    authTag: Bytes
+    keyVersion: number
+    plainBytes: number
+    createdAt: Date
+    updatedAt: Date
+    _count: MediaBlobCountAggregateOutputType | null
+    _avg: MediaBlobAvgAggregateOutputType | null
+    _sum: MediaBlobSumAggregateOutputType | null
+    _min: MediaBlobMinAggregateOutputType | null
+    _max: MediaBlobMaxAggregateOutputType | null
+  }
+
+  type GetMediaBlobGroupByPayload<T extends MediaBlobGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MediaBlobGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MediaBlobGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MediaBlobGroupByOutputType[P]>
+            : GetScalarType<T[P], MediaBlobGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MediaBlobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    mediaId?: boolean
+    contentType?: boolean
+    data?: boolean
+    iv?: boolean
+    authTag?: boolean
+    keyVersion?: boolean
+    plainBytes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["mediaBlob"]>
+
+  export type MediaBlobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    mediaId?: boolean
+    contentType?: boolean
+    data?: boolean
+    iv?: boolean
+    authTag?: boolean
+    keyVersion?: boolean
+    plainBytes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["mediaBlob"]>
+
+  export type MediaBlobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    mediaId?: boolean
+    contentType?: boolean
+    data?: boolean
+    iv?: boolean
+    authTag?: boolean
+    keyVersion?: boolean
+    plainBytes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["mediaBlob"]>
+
+  export type MediaBlobSelectScalar = {
+    key?: boolean
+    mediaId?: boolean
+    contentType?: boolean
+    data?: boolean
+    iv?: boolean
+    authTag?: boolean
+    keyVersion?: boolean
+    plainBytes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MediaBlobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"key" | "mediaId" | "contentType" | "data" | "iv" | "authTag" | "keyVersion" | "plainBytes" | "createdAt" | "updatedAt", ExtArgs["result"]["mediaBlob"]>
+
+  export type $MediaBlobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MediaBlob"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      key: string
+      mediaId: string | null
+      contentType: string
+      data: Prisma.Bytes
+      iv: Prisma.Bytes
+      authTag: Prisma.Bytes
+      keyVersion: number
+      plainBytes: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["mediaBlob"]>
+    composites: {}
+  }
+
+  type MediaBlobGetPayload<S extends boolean | null | undefined | MediaBlobDefaultArgs> = $Result.GetResult<Prisma.$MediaBlobPayload, S>
+
+  type MediaBlobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MediaBlobFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MediaBlobCountAggregateInputType | true
+    }
+
+  export interface MediaBlobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MediaBlob'], meta: { name: 'MediaBlob' } }
+    /**
+     * Find zero or one MediaBlob that matches the filter.
+     * @param {MediaBlobFindUniqueArgs} args - Arguments to find a MediaBlob
+     * @example
+     * // Get one MediaBlob
+     * const mediaBlob = await prisma.mediaBlob.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MediaBlobFindUniqueArgs>(args: SelectSubset<T, MediaBlobFindUniqueArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MediaBlob that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MediaBlobFindUniqueOrThrowArgs} args - Arguments to find a MediaBlob
+     * @example
+     * // Get one MediaBlob
+     * const mediaBlob = await prisma.mediaBlob.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MediaBlobFindUniqueOrThrowArgs>(args: SelectSubset<T, MediaBlobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MediaBlob that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MediaBlobFindFirstArgs} args - Arguments to find a MediaBlob
+     * @example
+     * // Get one MediaBlob
+     * const mediaBlob = await prisma.mediaBlob.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MediaBlobFindFirstArgs>(args?: SelectSubset<T, MediaBlobFindFirstArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MediaBlob that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MediaBlobFindFirstOrThrowArgs} args - Arguments to find a MediaBlob
+     * @example
+     * // Get one MediaBlob
+     * const mediaBlob = await prisma.mediaBlob.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MediaBlobFindFirstOrThrowArgs>(args?: SelectSubset<T, MediaBlobFindFirstOrThrowArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MediaBlobs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MediaBlobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MediaBlobs
+     * const mediaBlobs = await prisma.mediaBlob.findMany()
+     * 
+     * // Get first 10 MediaBlobs
+     * const mediaBlobs = await prisma.mediaBlob.findMany({ take: 10 })
+     * 
+     * // Only select the `key`
+     * const mediaBlobWithKeyOnly = await prisma.mediaBlob.findMany({ select: { key: true } })
+     * 
+     */
+    findMany<T extends MediaBlobFindManyArgs>(args?: SelectSubset<T, MediaBlobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MediaBlob.
+     * @param {MediaBlobCreateArgs} args - Arguments to create a MediaBlob.
+     * @example
+     * // Create one MediaBlob
+     * const MediaBlob = await prisma.mediaBlob.create({
+     *   data: {
+     *     // ... data to create a MediaBlob
+     *   }
+     * })
+     * 
+     */
+    create<T extends MediaBlobCreateArgs>(args: SelectSubset<T, MediaBlobCreateArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MediaBlobs.
+     * @param {MediaBlobCreateManyArgs} args - Arguments to create many MediaBlobs.
+     * @example
+     * // Create many MediaBlobs
+     * const mediaBlob = await prisma.mediaBlob.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MediaBlobCreateManyArgs>(args?: SelectSubset<T, MediaBlobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MediaBlobs and returns the data saved in the database.
+     * @param {MediaBlobCreateManyAndReturnArgs} args - Arguments to create many MediaBlobs.
+     * @example
+     * // Create many MediaBlobs
+     * const mediaBlob = await prisma.mediaBlob.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MediaBlobs and only return the `key`
+     * const mediaBlobWithKeyOnly = await prisma.mediaBlob.createManyAndReturn({
+     *   select: { key: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MediaBlobCreateManyAndReturnArgs>(args?: SelectSubset<T, MediaBlobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MediaBlob.
+     * @param {MediaBlobDeleteArgs} args - Arguments to delete one MediaBlob.
+     * @example
+     * // Delete one MediaBlob
+     * const MediaBlob = await prisma.mediaBlob.delete({
+     *   where: {
+     *     // ... filter to delete one MediaBlob
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MediaBlobDeleteArgs>(args: SelectSubset<T, MediaBlobDeleteArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MediaBlob.
+     * @param {MediaBlobUpdateArgs} args - Arguments to update one MediaBlob.
+     * @example
+     * // Update one MediaBlob
+     * const mediaBlob = await prisma.mediaBlob.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MediaBlobUpdateArgs>(args: SelectSubset<T, MediaBlobUpdateArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MediaBlobs.
+     * @param {MediaBlobDeleteManyArgs} args - Arguments to filter MediaBlobs to delete.
+     * @example
+     * // Delete a few MediaBlobs
+     * const { count } = await prisma.mediaBlob.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MediaBlobDeleteManyArgs>(args?: SelectSubset<T, MediaBlobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MediaBlobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MediaBlobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MediaBlobs
+     * const mediaBlob = await prisma.mediaBlob.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MediaBlobUpdateManyArgs>(args: SelectSubset<T, MediaBlobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MediaBlobs and returns the data updated in the database.
+     * @param {MediaBlobUpdateManyAndReturnArgs} args - Arguments to update many MediaBlobs.
+     * @example
+     * // Update many MediaBlobs
+     * const mediaBlob = await prisma.mediaBlob.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MediaBlobs and only return the `key`
+     * const mediaBlobWithKeyOnly = await prisma.mediaBlob.updateManyAndReturn({
+     *   select: { key: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MediaBlobUpdateManyAndReturnArgs>(args: SelectSubset<T, MediaBlobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MediaBlob.
+     * @param {MediaBlobUpsertArgs} args - Arguments to update or create a MediaBlob.
+     * @example
+     * // Update or create a MediaBlob
+     * const mediaBlob = await prisma.mediaBlob.upsert({
+     *   create: {
+     *     // ... data to create a MediaBlob
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MediaBlob we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MediaBlobUpsertArgs>(args: SelectSubset<T, MediaBlobUpsertArgs<ExtArgs>>): Prisma__MediaBlobClient<$Result.GetResult<Prisma.$MediaBlobPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MediaBlobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MediaBlobCountArgs} args - Arguments to filter MediaBlobs to count.
+     * @example
+     * // Count the number of MediaBlobs
+     * const count = await prisma.mediaBlob.count({
+     *   where: {
+     *     // ... the filter for the MediaBlobs we want to count
+     *   }
+     * })
+    **/
+    count<T extends MediaBlobCountArgs>(
+      args?: Subset<T, MediaBlobCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MediaBlobCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MediaBlob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MediaBlobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MediaBlobAggregateArgs>(args: Subset<T, MediaBlobAggregateArgs>): Prisma.PrismaPromise<GetMediaBlobAggregateType<T>>
+
+    /**
+     * Group by MediaBlob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MediaBlobGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MediaBlobGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MediaBlobGroupByArgs['orderBy'] }
+        : { orderBy?: MediaBlobGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MediaBlobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMediaBlobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MediaBlob model
+   */
+  readonly fields: MediaBlobFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MediaBlob.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MediaBlobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MediaBlob model
+   */
+  interface MediaBlobFieldRefs {
+    readonly key: FieldRef<"MediaBlob", 'String'>
+    readonly mediaId: FieldRef<"MediaBlob", 'String'>
+    readonly contentType: FieldRef<"MediaBlob", 'String'>
+    readonly data: FieldRef<"MediaBlob", 'Bytes'>
+    readonly iv: FieldRef<"MediaBlob", 'Bytes'>
+    readonly authTag: FieldRef<"MediaBlob", 'Bytes'>
+    readonly keyVersion: FieldRef<"MediaBlob", 'Int'>
+    readonly plainBytes: FieldRef<"MediaBlob", 'Int'>
+    readonly createdAt: FieldRef<"MediaBlob", 'DateTime'>
+    readonly updatedAt: FieldRef<"MediaBlob", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MediaBlob findUnique
+   */
+  export type MediaBlobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * Filter, which MediaBlob to fetch.
+     */
+    where: MediaBlobWhereUniqueInput
+  }
+
+  /**
+   * MediaBlob findUniqueOrThrow
+   */
+  export type MediaBlobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * Filter, which MediaBlob to fetch.
+     */
+    where: MediaBlobWhereUniqueInput
+  }
+
+  /**
+   * MediaBlob findFirst
+   */
+  export type MediaBlobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * Filter, which MediaBlob to fetch.
+     */
+    where?: MediaBlobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MediaBlobs to fetch.
+     */
+    orderBy?: MediaBlobOrderByWithRelationInput | MediaBlobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MediaBlobs.
+     */
+    cursor?: MediaBlobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MediaBlobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MediaBlobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MediaBlobs.
+     */
+    distinct?: MediaBlobScalarFieldEnum | MediaBlobScalarFieldEnum[]
+  }
+
+  /**
+   * MediaBlob findFirstOrThrow
+   */
+  export type MediaBlobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * Filter, which MediaBlob to fetch.
+     */
+    where?: MediaBlobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MediaBlobs to fetch.
+     */
+    orderBy?: MediaBlobOrderByWithRelationInput | MediaBlobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MediaBlobs.
+     */
+    cursor?: MediaBlobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MediaBlobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MediaBlobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MediaBlobs.
+     */
+    distinct?: MediaBlobScalarFieldEnum | MediaBlobScalarFieldEnum[]
+  }
+
+  /**
+   * MediaBlob findMany
+   */
+  export type MediaBlobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * Filter, which MediaBlobs to fetch.
+     */
+    where?: MediaBlobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MediaBlobs to fetch.
+     */
+    orderBy?: MediaBlobOrderByWithRelationInput | MediaBlobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MediaBlobs.
+     */
+    cursor?: MediaBlobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MediaBlobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MediaBlobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MediaBlobs.
+     */
+    distinct?: MediaBlobScalarFieldEnum | MediaBlobScalarFieldEnum[]
+  }
+
+  /**
+   * MediaBlob create
+   */
+  export type MediaBlobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * The data needed to create a MediaBlob.
+     */
+    data: XOR<MediaBlobCreateInput, MediaBlobUncheckedCreateInput>
+  }
+
+  /**
+   * MediaBlob createMany
+   */
+  export type MediaBlobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MediaBlobs.
+     */
+    data: MediaBlobCreateManyInput | MediaBlobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MediaBlob createManyAndReturn
+   */
+  export type MediaBlobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * The data used to create many MediaBlobs.
+     */
+    data: MediaBlobCreateManyInput | MediaBlobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MediaBlob update
+   */
+  export type MediaBlobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * The data needed to update a MediaBlob.
+     */
+    data: XOR<MediaBlobUpdateInput, MediaBlobUncheckedUpdateInput>
+    /**
+     * Choose, which MediaBlob to update.
+     */
+    where: MediaBlobWhereUniqueInput
+  }
+
+  /**
+   * MediaBlob updateMany
+   */
+  export type MediaBlobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MediaBlobs.
+     */
+    data: XOR<MediaBlobUpdateManyMutationInput, MediaBlobUncheckedUpdateManyInput>
+    /**
+     * Filter which MediaBlobs to update
+     */
+    where?: MediaBlobWhereInput
+    /**
+     * Limit how many MediaBlobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MediaBlob updateManyAndReturn
+   */
+  export type MediaBlobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * The data used to update MediaBlobs.
+     */
+    data: XOR<MediaBlobUpdateManyMutationInput, MediaBlobUncheckedUpdateManyInput>
+    /**
+     * Filter which MediaBlobs to update
+     */
+    where?: MediaBlobWhereInput
+    /**
+     * Limit how many MediaBlobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MediaBlob upsert
+   */
+  export type MediaBlobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * The filter to search for the MediaBlob to update in case it exists.
+     */
+    where: MediaBlobWhereUniqueInput
+    /**
+     * In case the MediaBlob found by the `where` argument doesn't exist, create a new MediaBlob with this data.
+     */
+    create: XOR<MediaBlobCreateInput, MediaBlobUncheckedCreateInput>
+    /**
+     * In case the MediaBlob was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MediaBlobUpdateInput, MediaBlobUncheckedUpdateInput>
+  }
+
+  /**
+   * MediaBlob delete
+   */
+  export type MediaBlobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+    /**
+     * Filter which MediaBlob to delete.
+     */
+    where: MediaBlobWhereUniqueInput
+  }
+
+  /**
+   * MediaBlob deleteMany
+   */
+  export type MediaBlobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MediaBlobs to delete
+     */
+    where?: MediaBlobWhereInput
+    /**
+     * Limit how many MediaBlobs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MediaBlob without action
+   */
+  export type MediaBlobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaBlob
+     */
+    select?: MediaBlobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MediaBlob
+     */
+    omit?: MediaBlobOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model FieldDefinition
    */
 
@@ -25505,6 +26700,22 @@ export namespace Prisma {
   export type MediaScalarFieldEnum = (typeof MediaScalarFieldEnum)[keyof typeof MediaScalarFieldEnum]
 
 
+  export const MediaBlobScalarFieldEnum: {
+    key: 'key',
+    mediaId: 'mediaId',
+    contentType: 'contentType',
+    data: 'data',
+    iv: 'iv',
+    authTag: 'authTag',
+    keyVersion: 'keyVersion',
+    plainBytes: 'plainBytes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MediaBlobScalarFieldEnum = (typeof MediaBlobScalarFieldEnum)[keyof typeof MediaBlobScalarFieldEnum]
+
+
   export const FieldDefinitionScalarFieldEnum: {
     id: 'id',
     key: 'key',
@@ -25820,6 +27031,20 @@ export namespace Prisma {
    * Reference to a field of type 'MediaStatus[]'
    */
   export type ListEnumMediaStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes[]'
+   */
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
     
 
 
@@ -27200,6 +28425,85 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Media"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Media"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Media"> | Date | string
+  }
+
+  export type MediaBlobWhereInput = {
+    AND?: MediaBlobWhereInput | MediaBlobWhereInput[]
+    OR?: MediaBlobWhereInput[]
+    NOT?: MediaBlobWhereInput | MediaBlobWhereInput[]
+    key?: StringFilter<"MediaBlob"> | string
+    mediaId?: StringNullableFilter<"MediaBlob"> | string | null
+    contentType?: StringFilter<"MediaBlob"> | string
+    data?: BytesFilter<"MediaBlob"> | Bytes
+    iv?: BytesFilter<"MediaBlob"> | Bytes
+    authTag?: BytesFilter<"MediaBlob"> | Bytes
+    keyVersion?: IntFilter<"MediaBlob"> | number
+    plainBytes?: IntFilter<"MediaBlob"> | number
+    createdAt?: DateTimeFilter<"MediaBlob"> | Date | string
+    updatedAt?: DateTimeFilter<"MediaBlob"> | Date | string
+  }
+
+  export type MediaBlobOrderByWithRelationInput = {
+    key?: SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    contentType?: SortOrder
+    data?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    keyVersion?: SortOrder
+    plainBytes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MediaBlobWhereUniqueInput = Prisma.AtLeast<{
+    key?: string
+    AND?: MediaBlobWhereInput | MediaBlobWhereInput[]
+    OR?: MediaBlobWhereInput[]
+    NOT?: MediaBlobWhereInput | MediaBlobWhereInput[]
+    mediaId?: StringNullableFilter<"MediaBlob"> | string | null
+    contentType?: StringFilter<"MediaBlob"> | string
+    data?: BytesFilter<"MediaBlob"> | Bytes
+    iv?: BytesFilter<"MediaBlob"> | Bytes
+    authTag?: BytesFilter<"MediaBlob"> | Bytes
+    keyVersion?: IntFilter<"MediaBlob"> | number
+    plainBytes?: IntFilter<"MediaBlob"> | number
+    createdAt?: DateTimeFilter<"MediaBlob"> | Date | string
+    updatedAt?: DateTimeFilter<"MediaBlob"> | Date | string
+  }, "key">
+
+  export type MediaBlobOrderByWithAggregationInput = {
+    key?: SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    contentType?: SortOrder
+    data?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    keyVersion?: SortOrder
+    plainBytes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MediaBlobCountOrderByAggregateInput
+    _avg?: MediaBlobAvgOrderByAggregateInput
+    _max?: MediaBlobMaxOrderByAggregateInput
+    _min?: MediaBlobMinOrderByAggregateInput
+    _sum?: MediaBlobSumOrderByAggregateInput
+  }
+
+  export type MediaBlobScalarWhereWithAggregatesInput = {
+    AND?: MediaBlobScalarWhereWithAggregatesInput | MediaBlobScalarWhereWithAggregatesInput[]
+    OR?: MediaBlobScalarWhereWithAggregatesInput[]
+    NOT?: MediaBlobScalarWhereWithAggregatesInput | MediaBlobScalarWhereWithAggregatesInput[]
+    key?: StringWithAggregatesFilter<"MediaBlob"> | string
+    mediaId?: StringNullableWithAggregatesFilter<"MediaBlob"> | string | null
+    contentType?: StringWithAggregatesFilter<"MediaBlob"> | string
+    data?: BytesWithAggregatesFilter<"MediaBlob"> | Bytes
+    iv?: BytesWithAggregatesFilter<"MediaBlob"> | Bytes
+    authTag?: BytesWithAggregatesFilter<"MediaBlob"> | Bytes
+    keyVersion?: IntWithAggregatesFilter<"MediaBlob"> | number
+    plainBytes?: IntWithAggregatesFilter<"MediaBlob"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"MediaBlob"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MediaBlob"> | Date | string
   }
 
   export type FieldDefinitionWhereInput = {
@@ -29161,6 +30465,97 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MediaBlobCreateInput = {
+    key: string
+    mediaId?: string | null
+    contentType: string
+    data: Bytes
+    iv: Bytes
+    authTag: Bytes
+    keyVersion?: number
+    plainBytes: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MediaBlobUncheckedCreateInput = {
+    key: string
+    mediaId?: string | null
+    contentType: string
+    data: Bytes
+    iv: Bytes
+    authTag: Bytes
+    keyVersion?: number
+    plainBytes: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MediaBlobUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    contentType?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    iv?: BytesFieldUpdateOperationsInput | Bytes
+    authTag?: BytesFieldUpdateOperationsInput | Bytes
+    keyVersion?: IntFieldUpdateOperationsInput | number
+    plainBytes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MediaBlobUncheckedUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    contentType?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    iv?: BytesFieldUpdateOperationsInput | Bytes
+    authTag?: BytesFieldUpdateOperationsInput | Bytes
+    keyVersion?: IntFieldUpdateOperationsInput | number
+    plainBytes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MediaBlobCreateManyInput = {
+    key: string
+    mediaId?: string | null
+    contentType: string
+    data: Bytes
+    iv: Bytes
+    authTag: Bytes
+    keyVersion?: number
+    plainBytes: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MediaBlobUpdateManyMutationInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    contentType?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    iv?: BytesFieldUpdateOperationsInput | Bytes
+    authTag?: BytesFieldUpdateOperationsInput | Bytes
+    keyVersion?: IntFieldUpdateOperationsInput | number
+    plainBytes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MediaBlobUncheckedUpdateManyInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    contentType?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    iv?: BytesFieldUpdateOperationsInput | Bytes
+    authTag?: BytesFieldUpdateOperationsInput | Bytes
+    keyVersion?: IntFieldUpdateOperationsInput | number
+    plainBytes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FieldDefinitionCreateInput = {
     id?: string
     key: string
@@ -31016,6 +32411,72 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumMediaStatusFilter<$PrismaModel>
     _max?: NestedEnumMediaStatusFilter<$PrismaModel>
+  }
+
+  export type BytesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Bytes
+  }
+
+  export type MediaBlobCountOrderByAggregateInput = {
+    key?: SortOrder
+    mediaId?: SortOrder
+    contentType?: SortOrder
+    data?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    keyVersion?: SortOrder
+    plainBytes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MediaBlobAvgOrderByAggregateInput = {
+    keyVersion?: SortOrder
+    plainBytes?: SortOrder
+  }
+
+  export type MediaBlobMaxOrderByAggregateInput = {
+    key?: SortOrder
+    mediaId?: SortOrder
+    contentType?: SortOrder
+    data?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    keyVersion?: SortOrder
+    plainBytes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MediaBlobMinOrderByAggregateInput = {
+    key?: SortOrder
+    mediaId?: SortOrder
+    contentType?: SortOrder
+    data?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    keyVersion?: SortOrder
+    plainBytes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MediaBlobSumOrderByAggregateInput = {
+    keyVersion?: SortOrder
+    plainBytes?: SortOrder
+  }
+
+  export type BytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Bytes
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
   }
 
   export type EnumFieldTypeFilter<$PrismaModel = never> = {
@@ -32883,6 +34344,10 @@ export namespace Prisma {
     deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
+  export type BytesFieldUpdateOperationsInput = {
+    set?: Bytes
+  }
+
   export type FieldDefinitionCreateimportAliasesInput = {
     set: string[]
   }
@@ -33469,6 +34934,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumMediaStatusFilter<$PrismaModel>
     _max?: NestedEnumMediaStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBytesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Bytes
+  }
+
+  export type NestedBytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Bytes
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
   }
 
   export type NestedEnumFieldTypeFilter<$PrismaModel = never> = {

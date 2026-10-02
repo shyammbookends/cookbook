@@ -4,7 +4,8 @@ import { createHash } from "node:crypto";
 import { fileTypeFromBuffer } from "file-type";
 
 export const ALLOWED_IMAGE_MIME = new Set(["image/jpeg", "image/png", "image/webp", "image/avif", "image/heic", "image/heif"]);
-export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
+// Vercel rejects request bodies over 4.5 MB before our code runs, so stay under that there.
+export const MAX_UPLOAD_BYTES = (process.env.VERCEL ? 4 : 15) * 1024 * 1024;
 const VARIANT_WIDTHS = [320, 640, 960, 1280, 1920];
 const VARIANT_FORMATS = ["avif", "webp"] as const;
 

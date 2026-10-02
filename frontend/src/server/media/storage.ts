@@ -1,12 +1,15 @@
 import "server-only";
-import { mkdir, writeFile, unlink } from "node:fs/promises";
-import path from "node:path";
+import { localPut, localRemove } from "@/server/media/localfs";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { db } from "@/server/db";
+import { encryptBytes, decryptBytes } from "@/server/media/crypto";
 
 /**
- * Storage adapter interface. `local` writes to disk under STORAGE_LOCAL_DIR
- * and is served by the /media route in dev. `r2` (S3-compatible) is the
- * production driver — swap STORAGE_DRIVER, no application code changes.
+ * Storage adapter interface. `db` (default in production, incl. Vercel) keeps
+ * AES-256-GCM encrypted bytes in PostgreSQL, served only through the
+ * authorizing /media route. `local` writes to disk under STORAGE_LOCAL_DIR for
+ * dev. `r2` (S3-compatible) is optional — swap STORAGE_DRIVER, no application
+ * code changes.
  */
 export interface StorageAdapter {
   put(key: string, data: Buffer, contentType: string): Promise<void>;
@@ -14,24 +17,39 @@ export interface StorageAdapter {
   publicUrl(key: string): string;
 }
 
-class LocalStorageAdapter implements StorageAdapter {
-  private root: string;
-  private publicBase: string;
-
-  constructor() {
-    this.root = path.resolve(process.cwd(), /* turbopackIgnore: true */ process.env.STORAGE_LOCAL_DIR ?? "./.media");
-    this.publicBase = process.env.STORAGE_PUBLIC_BASE ?? "/media";
-  }
-
-  async put(key: string, data: Buffer): Promise<void> {
-    const filePath = path.join(this.root, key);
-    await mkdir(path.dirname(filePath), { recursive: true });
-    await writeFile(filePath, data);
+class DbStorageAdapter implements StorageAdapter {
+  async put(key: string, data: Buffer, contentType: string): Promise<void> {
+    const sealed = encryptBytes(data, key);
+    const mediaId = /^media\/([^/]+)\//.exec(key)?.[1] ?? null;
+    const row = { mediaId, contentType, data: new Uint8Array(sealed.data), iv: new Uint8Array(sealed.iv), authTag: new Uint8Array(sealed.authTag), keyVersion: sealed.keyVersion, plainBytes: data.byteLength };
+    await db.mediaBlob.upsert({ where: { key }, create: { key, ...row }, update: row });
   }
 
   async remove(key: string): Promise<void> {
-    const filePath = path.join(this.root, key);
-    await unlink(filePath).catch(() => {});
+    await db.mediaBlob.deleteMany({ where: { key } });
+  }
+
+  publicUrl(key: string): string {
+    return `/media/${key.replace(/^media\//, "")}`;
+  }
+}
+
+/** Server-side read + decrypt of a stored file (db driver only). */
+export async function readStoredFile(key: string): Promise<{ data: Buffer; contentType: string } | null> {
+  const row = await db.mediaBlob.findUnique({ where: { key } });
+  if (!row) return null;
+  return { data: decryptBytes(row, key), contentType: row.contentType };
+}
+
+class LocalStorageAdapter implements StorageAdapter {
+  private publicBase = process.env.STORAGE_PUBLIC_BASE ?? "/media";
+
+  async put(key: string, data: Buffer): Promise<void> {
+    await localPut(key, data);
+  }
+
+  async remove(key: string): Promise<void> {
+    await localRemove(key);
   }
 
   publicUrl(key: string): string {
@@ -82,7 +100,9 @@ let adapter: StorageAdapter | null = null;
 
 export function getStorage(): StorageAdapter {
   if (!adapter) {
-    adapter = process.env.STORAGE_DRIVER === "r2" ? new R2StorageAdapter() : new LocalStorageAdapter();
+    // Vercel/production has no persistent disk, so encrypted PostgreSQL storage is the default there.
+    const driver = process.env.STORAGE_DRIVER ?? (process.env.NODE_ENV === "production" ? "db" : "local");
+    adapter = driver === "r2" ? new R2StorageAdapter() : driver === "local" ? new LocalStorageAdapter() : new DbStorageAdapter();
   }
   return adapter;
 }

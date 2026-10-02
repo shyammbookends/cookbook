@@ -3,6 +3,9 @@ import { Space_Grotesk, JetBrains_Mono, Source_Serif_4, Caveat, Kalam, Playfair_
 import "./globals.css";
 import { SuppressWarnings } from "@/components/utils/SuppressWarnings";
 
+// Data comes from PostgreSQL at request time; the build must not need a database connection.
+export const dynamic = "force-dynamic";
+
 const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });
 const sourceSerif = Source_Serif_4({ variable: "--font-source-serif", subsets: ["latin"] });

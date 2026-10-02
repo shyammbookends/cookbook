@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { getActiveBrands } from "@/server/public/brands";
 import { getSitemapEntries } from "@/server/public/recipes";
 
+// Data comes from PostgreSQL at request time; the build must not need a database connection.
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.AUTH_URL ?? "http://localhost:3000";
   const brands = await getActiveBrands();

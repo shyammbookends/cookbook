@@ -20,13 +20,27 @@ function createClient() {
   if (!connectionString) {
     throw new Error("DATABASE_URL is not set.");
   }
-  const adapter = new PrismaPg({ connectionString });
+  // Small pool: on serverless every warm instance holds its own connections.
+  const adapter = new PrismaPg({ connectionString, max: Number(process.env.DATABASE_POOL_MAX ?? 5) });
   return new PrismaClient({ adapter });
 }
 
-// Reuse the client across hot reloads in dev so we don't exhaust connections.
-export const db = globalThis.__prisma ?? createClient();
-if (process.env.NODE_ENV !== "production") {
-  globalThis.__prisma = db;
+function getClient(): PrismaClient {
+  // One client per server instance (also survives dev hot reloads).
+  return (globalThis.__prisma ??= createClient());
 }
 
+/**
+ * Connects lazily on first use, NOT at import time. `next build` imports every
+ * route module to collect its config, and that must not require (or open) a
+ * database connection — a missing DATABASE_URL still fails loudly, but only when
+ * a query actually runs.
+ */
+export const db: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    return Reflect.get(getClient(), prop);
+  },
+  has(_target, prop) {
+    return Reflect.has(getClient(), prop);
+  },
+});
