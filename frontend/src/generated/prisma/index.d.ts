@@ -10401,6 +10401,9 @@ export namespace Prisma {
     station: string | null
     summary: string | null
     sopVersion: string | null
+    dishType: string | null
+    service: string | null
+    sopSections: string | null
     ingredientText: string | null
     status: $Enums.RecipeStatus | null
     publishAt: Date | null
@@ -10452,6 +10455,9 @@ export namespace Prisma {
     station: string | null
     summary: string | null
     sopVersion: string | null
+    dishType: string | null
+    service: string | null
+    sopSections: string | null
     ingredientText: string | null
     status: $Enums.RecipeStatus | null
     publishAt: Date | null
@@ -10508,6 +10514,9 @@ export namespace Prisma {
     summary: number
     sopVersion: number
     qualityCheck: number
+    dishType: number
+    service: number
+    sopSections: number
     customFields: number
     ingredientText: number
     status: number
@@ -10582,6 +10591,9 @@ export namespace Prisma {
     station?: true
     summary?: true
     sopVersion?: true
+    dishType?: true
+    service?: true
+    sopSections?: true
     ingredientText?: true
     status?: true
     publishAt?: true
@@ -10633,6 +10645,9 @@ export namespace Prisma {
     station?: true
     summary?: true
     sopVersion?: true
+    dishType?: true
+    service?: true
+    sopSections?: true
     ingredientText?: true
     status?: true
     publishAt?: true
@@ -10689,6 +10704,9 @@ export namespace Prisma {
     summary?: true
     sopVersion?: true
     qualityCheck?: true
+    dishType?: true
+    service?: true
+    sopSections?: true
     customFields?: true
     ingredientText?: true
     status?: true
@@ -10833,6 +10851,9 @@ export namespace Prisma {
     summary: string | null
     sopVersion: string | null
     qualityCheck: string[]
+    dishType: string | null
+    service: string | null
+    sopSections: string | null
     customFields: JsonValue
     ingredientText: string | null
     status: $Enums.RecipeStatus
@@ -10909,6 +10930,9 @@ export namespace Prisma {
     summary?: boolean
     sopVersion?: boolean
     qualityCheck?: boolean
+    dishType?: boolean
+    service?: boolean
+    sopSections?: boolean
     customFields?: boolean
     ingredientText?: boolean
     status?: boolean
@@ -10979,6 +11003,9 @@ export namespace Prisma {
     summary?: boolean
     sopVersion?: boolean
     qualityCheck?: boolean
+    dishType?: boolean
+    service?: boolean
+    sopSections?: boolean
     customFields?: boolean
     ingredientText?: boolean
     status?: boolean
@@ -11042,6 +11069,9 @@ export namespace Prisma {
     summary?: boolean
     sopVersion?: boolean
     qualityCheck?: boolean
+    dishType?: boolean
+    service?: boolean
+    sopSections?: boolean
     customFields?: boolean
     ingredientText?: boolean
     status?: boolean
@@ -11105,6 +11135,9 @@ export namespace Prisma {
     summary?: boolean
     sopVersion?: boolean
     qualityCheck?: boolean
+    dishType?: boolean
+    service?: boolean
+    sopSections?: boolean
     customFields?: boolean
     ingredientText?: boolean
     status?: boolean
@@ -11123,7 +11156,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type RecipeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brandId" | "categoryId" | "externalId" | "slug" | "title" | "subtitle" | "excerpt" | "description" | "heroImageId" | "prepMinutes" | "cookMinutes" | "restMinutes" | "totalMinutes" | "servings" | "yieldText" | "difficulty" | "cuisine" | "course" | "dietary" | "spiceLevel" | "equipment" | "nutrition" | "notes" | "tips" | "dishCode" | "author" | "approvedBy" | "effectiveDate" | "nextReviewDate" | "miseEnPlace" | "plating" | "holding" | "allergens" | "station" | "summary" | "sopVersion" | "qualityCheck" | "customFields" | "ingredientText" | "status" | "publishAt" | "publishedAt" | "featured" | "seoTitle" | "seoDescription" | "noindex" | "importJobId" | "version" | "createdById" | "updatedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["recipe"]>
+  export type RecipeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brandId" | "categoryId" | "externalId" | "slug" | "title" | "subtitle" | "excerpt" | "description" | "heroImageId" | "prepMinutes" | "cookMinutes" | "restMinutes" | "totalMinutes" | "servings" | "yieldText" | "difficulty" | "cuisine" | "course" | "dietary" | "spiceLevel" | "equipment" | "nutrition" | "notes" | "tips" | "dishCode" | "author" | "approvedBy" | "effectiveDate" | "nextReviewDate" | "miseEnPlace" | "plating" | "holding" | "allergens" | "station" | "summary" | "sopVersion" | "qualityCheck" | "dishType" | "service" | "sopSections" | "customFields" | "ingredientText" | "status" | "publishAt" | "publishedAt" | "featured" | "seoTitle" | "seoDescription" | "noindex" | "importJobId" | "version" | "createdById" | "updatedById" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["recipe"]>
   export type RecipeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     brand?: boolean | BrandDefaultArgs<ExtArgs>
     category?: boolean | Recipe$categoryArgs<ExtArgs>
@@ -11211,6 +11244,9 @@ export namespace Prisma {
       summary: string | null
       sopVersion: string | null
       qualityCheck: string[]
+      dishType: string | null
+      service: string | null
+      sopSections: string | null
       customFields: Prisma.JsonValue
       ingredientText: string | null
       status: $Enums.RecipeStatus
@@ -11700,6 +11736,9 @@ export namespace Prisma {
     readonly summary: FieldRef<"Recipe", 'String'>
     readonly sopVersion: FieldRef<"Recipe", 'String'>
     readonly qualityCheck: FieldRef<"Recipe", 'String[]'>
+    readonly dishType: FieldRef<"Recipe", 'String'>
+    readonly service: FieldRef<"Recipe", 'String'>
+    readonly sopSections: FieldRef<"Recipe", 'String'>
     readonly customFields: FieldRef<"Recipe", 'Json'>
     readonly ingredientText: FieldRef<"Recipe", 'String'>
     readonly status: FieldRef<"Recipe", 'RecipeStatus'>
@@ -25366,6 +25405,9 @@ export namespace Prisma {
     summary: 'summary',
     sopVersion: 'sopVersion',
     qualityCheck: 'qualityCheck',
+    dishType: 'dishType',
+    service: 'service',
+    sopSections: 'sopSections',
     customFields: 'customFields',
     ingredientText: 'ingredientText',
     status: 'status',
@@ -26431,6 +26473,9 @@ export namespace Prisma {
     summary?: StringNullableFilter<"Recipe"> | string | null
     sopVersion?: StringNullableFilter<"Recipe"> | string | null
     qualityCheck?: StringNullableListFilter<"Recipe">
+    dishType?: StringNullableFilter<"Recipe"> | string | null
+    service?: StringNullableFilter<"Recipe"> | string | null
+    sopSections?: StringNullableFilter<"Recipe"> | string | null
     customFields?: JsonFilter<"Recipe">
     ingredientText?: StringNullableFilter<"Recipe"> | string | null
     status?: EnumRecipeStatusFilter<"Recipe"> | $Enums.RecipeStatus
@@ -26500,6 +26545,9 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     sopVersion?: SortOrderInput | SortOrder
     qualityCheck?: SortOrder
+    dishType?: SortOrderInput | SortOrder
+    service?: SortOrderInput | SortOrder
+    sopSections?: SortOrderInput | SortOrder
     customFields?: SortOrder
     ingredientText?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -26573,6 +26621,9 @@ export namespace Prisma {
     summary?: StringNullableFilter<"Recipe"> | string | null
     sopVersion?: StringNullableFilter<"Recipe"> | string | null
     qualityCheck?: StringNullableListFilter<"Recipe">
+    dishType?: StringNullableFilter<"Recipe"> | string | null
+    service?: StringNullableFilter<"Recipe"> | string | null
+    sopSections?: StringNullableFilter<"Recipe"> | string | null
     customFields?: JsonFilter<"Recipe">
     ingredientText?: StringNullableFilter<"Recipe"> | string | null
     status?: EnumRecipeStatusFilter<"Recipe"> | $Enums.RecipeStatus
@@ -26642,6 +26693,9 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     sopVersion?: SortOrderInput | SortOrder
     qualityCheck?: SortOrder
+    dishType?: SortOrderInput | SortOrder
+    service?: SortOrderInput | SortOrder
+    sopSections?: SortOrderInput | SortOrder
     customFields?: SortOrder
     ingredientText?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -26707,6 +26761,9 @@ export namespace Prisma {
     summary?: StringNullableWithAggregatesFilter<"Recipe"> | string | null
     sopVersion?: StringNullableWithAggregatesFilter<"Recipe"> | string | null
     qualityCheck?: StringNullableListFilter<"Recipe">
+    dishType?: StringNullableWithAggregatesFilter<"Recipe"> | string | null
+    service?: StringNullableWithAggregatesFilter<"Recipe"> | string | null
+    sopSections?: StringNullableWithAggregatesFilter<"Recipe"> | string | null
     customFields?: JsonWithAggregatesFilter<"Recipe">
     ingredientText?: StringNullableWithAggregatesFilter<"Recipe"> | string | null
     status?: EnumRecipeStatusWithAggregatesFilter<"Recipe"> | $Enums.RecipeStatus
@@ -28257,6 +28314,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -28323,6 +28383,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -28383,6 +28446,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -28449,6 +28515,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -28512,6 +28581,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -28566,6 +28638,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -28620,6 +28695,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -30393,6 +30471,9 @@ export namespace Prisma {
     summary?: SortOrder
     sopVersion?: SortOrder
     qualityCheck?: SortOrder
+    dishType?: SortOrder
+    service?: SortOrder
+    sopSections?: SortOrder
     customFields?: SortOrder
     ingredientText?: SortOrder
     status?: SortOrder
@@ -30455,6 +30536,9 @@ export namespace Prisma {
     station?: SortOrder
     summary?: SortOrder
     sopVersion?: SortOrder
+    dishType?: SortOrder
+    service?: SortOrder
+    sopSections?: SortOrder
     ingredientText?: SortOrder
     status?: SortOrder
     publishAt?: SortOrder
@@ -30506,6 +30590,9 @@ export namespace Prisma {
     station?: SortOrder
     summary?: SortOrder
     sopVersion?: SortOrder
+    dishType?: SortOrder
+    service?: SortOrder
+    sopSections?: SortOrder
     ingredientText?: SortOrder
     status?: SortOrder
     publishAt?: SortOrder
@@ -33499,6 +33586,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -33564,6 +33654,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -33633,6 +33726,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -33698,6 +33794,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -34000,6 +34099,9 @@ export namespace Prisma {
     summary?: StringNullableFilter<"Recipe"> | string | null
     sopVersion?: StringNullableFilter<"Recipe"> | string | null
     qualityCheck?: StringNullableListFilter<"Recipe">
+    dishType?: StringNullableFilter<"Recipe"> | string | null
+    service?: StringNullableFilter<"Recipe"> | string | null
+    sopSections?: StringNullableFilter<"Recipe"> | string | null
     customFields?: JsonFilter<"Recipe">
     ingredientText?: StringNullableFilter<"Recipe"> | string | null
     status?: EnumRecipeStatusFilter<"Recipe"> | $Enums.RecipeStatus
@@ -34657,6 +34759,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -34721,6 +34826,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -35283,6 +35391,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -35346,6 +35457,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -36729,6 +36843,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -36794,6 +36911,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -36869,6 +36989,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -36934,6 +37057,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -36993,6 +37119,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -37058,6 +37187,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -37198,6 +37330,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -37263,6 +37398,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -37393,6 +37531,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -37458,6 +37599,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -37552,6 +37696,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -37617,6 +37764,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -37701,6 +37851,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -37766,6 +37919,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -37906,6 +38062,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -37971,6 +38130,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -38368,6 +38530,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -38432,6 +38597,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -39002,6 +39170,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -39067,6 +39238,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -39272,6 +39446,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -39337,6 +39514,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -39471,6 +39651,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -39536,6 +39719,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -39595,6 +39781,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -39660,6 +39849,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -39735,6 +39927,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -39800,6 +39995,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -39967,6 +40165,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -40023,6 +40224,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -40165,6 +40369,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40230,6 +40437,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40292,6 +40502,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40345,6 +40558,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40410,6 +40626,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40472,6 +40691,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40748,6 +40970,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -40871,6 +41096,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40935,6 +41163,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -40997,6 +41228,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -41094,6 +41328,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -41148,6 +41385,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -41211,6 +41451,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -41272,6 +41515,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -41620,6 +41866,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -41977,6 +42226,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -42041,6 +42293,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -42103,6 +42358,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -42253,6 +42511,9 @@ export namespace Prisma {
     summary?: string | null
     sopVersion?: string | null
     qualityCheck?: RecipeCreatequalityCheckInput | string[]
+    dishType?: string | null
+    service?: string | null
+    sopSections?: string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: string | null
     status?: $Enums.RecipeStatus
@@ -42336,6 +42597,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -42401,6 +42665,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
@@ -42463,6 +42730,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     sopVersion?: NullableStringFieldUpdateOperationsInput | string | null
     qualityCheck?: RecipeUpdatequalityCheckInput | string[]
+    dishType?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: NullableStringFieldUpdateOperationsInput | string | null
+    sopSections?: NullableStringFieldUpdateOperationsInput | string | null
     customFields?: JsonNullValueInput | InputJsonValue
     ingredientText?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus

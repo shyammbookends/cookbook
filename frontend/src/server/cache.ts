@@ -8,5 +8,10 @@ import { revalidateTag as nextRevalidateTag } from "next/cache";
  * should immediately see the update rather than a cached-for-a-year page.
  */
 export function revalidateTag(tag: string): void {
-  nextRevalidateTag(tag, { expire: 0 });
+  try {
+    nextRevalidateTag(tag, { expire: 0 });
+  } catch (err) {
+    // Outside a Next.js request (CLI import scripts) there is no cache to clear.
+    if (process.env.NEXT_RUNTIME) throw err;
+  }
 }

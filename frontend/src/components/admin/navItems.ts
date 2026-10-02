@@ -1,5 +1,5 @@
 export const ADMIN_NAV = [
-  { href: "/admin", label: "Dashboard" },
+  { href: "/admin", label: "Admin Portal" },
   { href: "/admin/recipes", label: "Recipes" },
   { href: "/admin/recipes/new", label: "Add Recipe" },
   { href: "/admin/import", label: "Import Excel" },

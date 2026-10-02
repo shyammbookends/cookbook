@@ -1,40 +1,10 @@
-import { db } from "@/server/db";
+import { listBrandsForTaxonomyManager } from "@/server/services/taxonomy";
 import { CategoryTagManager } from "@/components/admin/CategoryTagManager";
 
 export const metadata = { title: "Categories & Tags" };
 
 export default async function CategoriesPage() {
-  const brands = await db.brand.findMany({
-    orderBy: { sortOrder: "asc" },
-    include: {
-      categories: {
-        orderBy: { sortOrder: "asc" },
-        include: {
-          _count: {
-            select: {
-              recipes: {
-                where: { deletedAt: null },
-              },
-            },
-          },
-        },
-      },
-      tags: {
-        orderBy: { name: "asc" },
-        include: {
-          _count: {
-            select: {
-              recipeTags: {
-                where: {
-                  recipe: { deletedAt: null },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
+  const brands = await listBrandsForTaxonomyManager();
 
   return (
     <div>

@@ -243,10 +243,7 @@ export async function confirmImport(jobId: string, admin: Admin) {
           raw: line.raw,
         })),
       );
-      const steps = [
-        ...normalized.prepSteps.map((body, i) => ({ phase: "PREP" as const, position: i, body })),
-        ...normalized.cookSteps.map((body, i) => ({ phase: "COOK" as const, position: i, body })),
-      ];
+      const steps = [...withSectionTitles(normalized.prepSteps, "PREP"), ...withSectionTitles(normalized.cookSteps, "COOK")];
 
       const status = blob.importOptions.publishMode === "publish_valid" && row.status === "VALID" && heroImageId
         ? "PUBLISHED" as const
@@ -272,6 +269,8 @@ export async function confirmImport(jobId: string, admin: Admin) {
               dishCode: normalized.dishCode, version: { increment: 1 }, author: normalized.author,
               approvedBy: normalized.approvedBy, effectiveDate: normalized.effectiveDate, nextReviewDate: normalized.nextReviewDate,
               miseEnPlace: normalized.miseEnPlace, plating: normalized.plating, holding: normalized.holding, allergens: normalized.allergens,
+              station: normalized.station, summary: normalized.summary, qualityCheck: normalized.qualityCheck,
+              subtitle: normalized.subtitle, dishType: normalized.dishType, service: normalized.service, sopSections: normalized.sopSections,
               updatedById: admin.id, importJobId: jobId,
               ingredients: { deleteMany: {}, create: ingredients },
               steps: { deleteMany: {}, create: steps },
@@ -291,6 +290,8 @@ export async function confirmImport(jobId: string, admin: Admin) {
               dishCode: normalized.dishCode, version: normalized.version || 1, author: normalized.author,
               approvedBy: normalized.approvedBy, effectiveDate: normalized.effectiveDate, nextReviewDate: normalized.nextReviewDate,
               miseEnPlace: normalized.miseEnPlace, plating: normalized.plating, holding: normalized.holding, allergens: normalized.allergens,
+              station: normalized.station, summary: normalized.summary, qualityCheck: normalized.qualityCheck,
+              subtitle: normalized.subtitle, dishType: normalized.dishType, service: normalized.service, sopSections: normalized.sopSections,
               status, publishedAt: status === "PUBLISHED" ? new Date() : null, featured: normalized.featured,
               seoTitle: normalized.seoTitle, seoDescription: normalized.seoDescription,
               createdById: admin.id, updatedById: admin.id, importJobId: jobId,
@@ -358,4 +359,19 @@ export async function listImportJobs(page = 1, pageSize = 20) {
     db.importJob.count(),
   ]);
   return { jobs, total, page, pageSize };
+}
+
+/** "## Heading" lines title the step after them (a new numbered method section). */
+function withSectionTitles(lines: string[], phase: "PREP" | "COOK") {
+  const out: { phase: typeof phase; position: number; body: string; title: string | null }[] = [];
+  let title: string | null = null;
+  for (const line of lines) {
+    const heading = line.match(/^#{1,3}\s*(.+)$/);
+    if (heading) title = heading[1].trim();
+    else {
+      out.push({ phase, position: out.length, body: line, title });
+      title = null;
+    }
+  }
+  return out;
 }

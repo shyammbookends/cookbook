@@ -45,3 +45,27 @@ export async function setBrandStatusAction(id: string, status: "ACTIVE" | "HIDDE
     return fail(err);
   }
 }
+
+export async function deleteBrandAction(id: string): Promise<ActionResult> {
+  try {
+    await requireAdmin("ADMIN");
+    await brandService.deleteBrand(id);
+    revalidatePath("/admin/brands");
+    revalidatePath("/", "layout");
+    return { ok: true, data: undefined };
+  } catch (err) {
+    return fail(err);
+  }
+}
+
+export async function deleteBrandsAction(ids: string[]): Promise<ActionResult<{ count: number }>> {
+  try {
+    await requireAdmin("ADMIN");
+    for (const id of ids) await brandService.deleteBrand(id);
+    revalidatePath("/admin/brands");
+    revalidatePath("/", "layout");
+    return { ok: true, data: { count: ids.length } };
+  } catch (err) {
+    return fail(err);
+  }
+}

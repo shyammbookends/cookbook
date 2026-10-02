@@ -95,6 +95,9 @@ export const RecipeInputSchema = z.object({
   summary: z.string().trim().max(400).optional().nullable(),
   sopVersion: z.string().trim().max(20).optional().nullable(),
   qualityCheck: z.array(z.string().trim().max(200)).default([]),
+  dishType: z.string().trim().max(80).optional().nullable(),
+  service: z.string().trim().max(80).optional().nullable(),
+  sopSections: z.string().trim().max(20000).optional().nullable(),
 
   customFields: z.record(z.string(), z.unknown()).default({}),
 

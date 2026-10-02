@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { uploadMediaAction, uploadMediaFromUrlAction, deleteMediaAction } from "@/app/admin/actions/media";
 
-interface MediaItem { id: string; url: string | null; alt: string | null; status: string; bytes: number; createdAt: string }
+interface MediaItem { id: string; url: string | null; alt: string | null; status: string; bytes: number; createdAt: string; recipes: { title: string; brand: string }[] }
 
 export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem[]; brands: { id: string; name: string }[] }) {
   const router = useRouter();
@@ -53,7 +53,8 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
       const q = searchQuery.toLowerCase().trim();
       const altMatch = m.alt ? m.alt.toLowerCase().includes(q) : false;
       const urlMatch = m.url ? m.url.toLowerCase().includes(q) : false;
-      if (!altMatch && !urlMatch) return false;
+      const recipeMatch = m.recipes.some((r) => r.title.toLowerCase().includes(q) || r.brand.toLowerCase().includes(q));
+      if (!altMatch && !urlMatch && !recipeMatch) return false;
     }
     return true;
   });
@@ -70,7 +71,7 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
           <input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search media by alt or filename…"
+            placeholder="Search by recipe name, alt or filename…"
             className="w-full rounded-lg border border-slate-200 bg-slate-50 pl-3 pr-8 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none"
           />
           {searchQuery && (
@@ -102,6 +103,18 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
             ) : (
               <div className="flex aspect-square w-full items-center justify-center text-xs text-slate-400 font-medium">{m.status}</div>
             )}
+            <div className="border-t border-slate-200 bg-white px-2.5 py-2">
+              {m.recipes.length > 0 ? (
+                m.recipes.map((r) => (
+                  <p key={r.title + r.brand} className="truncate text-xs font-semibold text-slate-800" title={`${r.title} · ${r.brand}`}>
+                    {r.title}
+                    <span className="ml-1 font-normal text-slate-400">{r.brand}</span>
+                  </p>
+                ))
+              ) : (
+                <p className="truncate text-xs italic text-slate-400" title={m.alt ?? undefined}>{m.alt || "Not used in any recipe"}</p>
+              )}
+            </div>
             <button
               onClick={() => handleDelete(m.id)}
               className="absolute right-2 top-2 rounded-full bg-white/90 shadow-md backdrop-blur-sm px-2 py-1 text-xs text-slate-700 opacity-0 transition-opacity hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"

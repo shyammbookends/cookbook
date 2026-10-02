@@ -3,25 +3,25 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { secretLoginAction } from "@/app/admin/actions/auth";
+import { IdInput, PasswordInput } from "@/components/portal/LoginFields";
 
 export function SecretAdminButton() {
   const [isOpen, setIsOpen] = useState(false);
-  const [code, setCode] = useState("");
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.toLowerCase();
-    setCode(val);
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     setError(false);
-
-    if (val === "bookends") {
-      setLoading(true);
-      const res = await secretLoginAction(val);
-      if (res?.error) {
-        setError(true);
-        setLoading(false);
-      }
+    const res = await secretLoginAction(id, password);
+    // On success the action redirects, so we only get here on failure.
+    if (res?.error) {
+      setError(true);
+      setLoading(false);
     }
   };
 
@@ -71,15 +71,25 @@ export function SecretAdminButton() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative overflow-hidden rounded-3xl bg-white/5 border border-white/20 p-2 shadow-2xl ring-1 ring-black/5">
-                <input
-                  autoFocus
-                  type="password"
-                  placeholder="Enter access code..."
-                  value={code}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className={`w-full bg-transparent px-6 py-5 text-center text-3xl font-light tracking-[0.2em] text-white outline-none placeholder:text-white/20 placeholder:tracking-normal ${error ? 'text-red-400' : ''}`}
-                />
+                <form onSubmit={submit} className="flex flex-col gap-3 p-4">
+                  <IdInput
+                    autoFocus
+                    value={id}
+                    onChange={(v) => { setId(v); setError(false); }}
+                    disabled={loading}
+                    className="w-full rounded-2xl bg-white/5 px-5 py-4 text-center text-xl font-light tracking-[0.12em] text-white outline-none placeholder:text-white/30 placeholder:tracking-normal"
+                  />
+                  <PasswordInput
+                    value={password}
+                    onChange={(v) => { setPassword(v); setError(false); }}
+                    disabled={loading}
+                    className="w-full rounded-2xl bg-white/5 px-5 py-4 text-center text-xl font-light tracking-[0.12em] text-white outline-none placeholder:text-white/30 placeholder:tracking-normal [&:-webkit-autofill]:[-webkit-text-fill-color:#fff] [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_rgba(255,255,255,0.05)]"
+                  />
+                  {error && <p className="text-center text-sm font-semibold text-red-400">Incorrect ID or password.</p>}
+                  <button type="submit" disabled={loading || !id || !password} className="mt-1 rounded-2xl bg-white/90 py-3.5 text-sm font-bold uppercase tracking-[0.25em] text-black transition-opacity disabled:opacity-40">
+                    Enter
+                  </button>
+                </form>
                 
                 {loading && (
                   <motion.div 

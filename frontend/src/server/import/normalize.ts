@@ -90,6 +90,13 @@ export interface NormalizedRow {
   plating: string | null;
   holding: string | null;
   allergens: string | null;
+  station: string | null;
+  summary: string | null;
+  qualityCheck: string[];
+  subtitle: string | null;
+  dishType: string | null;
+  service: string | null;
+  sopSections: string | null;
   customFields: Record<string, unknown>;
 }
 
@@ -237,6 +244,14 @@ export function normalizeRow(record: Record<string, unknown>): { normalized: Nor
     plating: str(record.plating) || null,
     holding: str(record.holding) || null,
     allergens: str(record.allergens) || null,
+    station: str(record.station) || null,
+    summary: str(record.summary) || null,
+    // Newlines only — a single check may contain commas.
+    qualityCheck: str(record.quality_check).split(/\r?\n/).map((x) => x.trim()).filter(Boolean),
+    subtitle: str(record.subtitle) || null,
+    dishType: str(record.dish_type) || null,
+    service: str(record.service) || null,
+    sopSections: str(record.sop_sections) || null,
     customFields,
   };
 

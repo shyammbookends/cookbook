@@ -99,3 +99,23 @@ export async function deleteTag(id: string) {
   await db.tag.delete({ where: { id } }); // RecipeTag cascades
   await revalidateBrand(tag.brandId);
 }
+
+/** Every brand with its categories (image + recipe count) and tags, as the category/tag manager shows them. */
+export async function listBrandsForTaxonomyManager() {
+  return db.brand.findMany({
+    orderBy: { sortOrder: "asc" },
+    include: {
+      categories: {
+        orderBy: { sortOrder: "asc" },
+        include: {
+          image: { select: { id: true, storageKey: true, sourceUrl: true, variants: true } },
+          _count: { select: { recipes: { where: { deletedAt: null } } } },
+        },
+      },
+      tags: {
+        orderBy: { name: "asc" },
+        include: { _count: { select: { recipeTags: { where: { recipe: { deletedAt: null } } } } } },
+      },
+    },
+  });
+}

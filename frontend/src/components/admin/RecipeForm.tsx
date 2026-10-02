@@ -1,18 +1,28 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
+import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, useTransition, type ReactNode, type Ref } from "react";
 import { useForm, useFieldArray, useController, useWatch, type Control, type Resolver, type FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { RecipeInputSchema, type RecipeInput, type RecipeFormValues } from "@/lib/schemas/recipe";
 import { createRecipeAction, updateRecipeAction } from "@/app/admin/actions/recipe";
 import { uploadMediaAction } from "@/app/admin/actions/media";
-import { RecipeSopView, sopVersionLabel, type SopViewData } from "@/components/recipe/RecipeSopView";
+import { sopVersionLabel, type SopViewData } from "@/components/recipe/RecipeSopView";
+import { dessertExtrasOf } from "@/lib/sop/dessert";
+import { dimsumExtrasOf } from "@/lib/sop/aiko-dimsum";
+import { drinkExtrasOf } from "@/lib/sop/aiko-drinks";
+import { aikoOptsOf } from "@/lib/sop/aiko";
+import { garnishOf } from "@/lib/sop/garnish";
+import { timeTextOf } from "@/lib/sop/timeText";
+import { SopCard } from "@/components/recipe/SopCard";
+import type { SopTemplateKey } from "@/lib/sop/templates";
 
 export interface FormBrand {
   id: string;
   name: string;
-  categories: { id: string; name: string }[];
+  /** The brand's SOP card design, used by the live preview. */
+  template: SopTemplateKey;
+  categories: { id: string; name: string; slug?: string }[];
   tags: { id: string; name: string }[];
 }
 
@@ -20,6 +30,14 @@ export interface RecipeFormInitial extends Partial<RecipeFormValues> {
   id?: string;
   version?: number;
   heroImagePreview?: string | null;
+}
+
+/** Lets a surrounding toolbar drive the editor (used by the portal's Add / Edit recipe page). */
+export interface RecipeFormHandle {
+  pickHeroImage: () => void;
+  saveDraft: () => void;
+  /** Same as the save bar's button (publishes in portal mode). */
+  save: () => void;
 }
 
 /**
@@ -33,7 +51,7 @@ const EMPTY: RecipeFormValues = {
   servings: null, yieldText: null, difficulty: null, cuisine: null, course: null, dietary: [], spiceLevel: null,
   equipment: [], nutrition: null, notes: null, tips: null, dishCode: null, author: null, approvedBy: null, effectiveDate: null,
   nextReviewDate: null, miseEnPlace: [], plating: null, holding: null, allergens: null, station: null, summary: null,
-  sopVersion: null, qualityCheck: [], customFields: {}, tagIds: [], ingredients: [], steps: [],
+  sopVersion: null, qualityCheck: [], dishType: null, service: null, sopSections: null, customFields: {}, tagIds: [], ingredients: [], steps: [],
   galleryMediaIds: [], status: "DRAFT", publishAt: null, featured: false, seoTitle: null, seoDescription: null, noindex: false,
 };
 
@@ -91,14 +109,14 @@ function normalize(v: RecipeFormValues): RecipeFormValues {
     const unit = i.unit?.trim() || null;
     const name = i.name ?? "";
     const raw = i.raw?.trim() || [quantity, unit, name.trim()].filter((x) => x != null && x !== "").join(" ");
-    return { ...i, position, quantity, unit, name, raw };
+    return { ...i, position, quantity, unit, name, raw, groupLabel: i.groupLabel?.trim() || null };
   });
 
   let phase: Phase = "PREP";
   out.steps = (v.steps ?? []).map((s, position) => {
     const own = (s.phase ?? phase) as Phase;
     phase = PHASE_ORDER[own] < PHASE_ORDER[phase] ? phase : own;
-    return { ...s, phase, position };
+    return { ...s, phase, position, title: s.title?.trim() || null };
   });
   return out as RecipeFormValues;
 }
@@ -267,9 +285,18 @@ function toViewData(v: RecipeFormValues, brands: FormBrand[], version: number | 
   const str = (s: string | null | undefined) => (s && s.trim() ? s : null);
   return {
     title: v.title ?? "",
+    subtitle: str(v.subtitle),
+    dishType: str(v.dishType),
+    service: str(v.service),
+    sopSections: str(v.sopSections),
     description: str(v.description),
     summary: str(v.summary),
     categoryName: brand?.categories.find((c) => c.id === v.categoryId)?.name ?? null,
+    categorySlug: brand?.categories.find((c) => c.id === v.categoryId)?.slug ?? null,
+    dessert: dessertExtrasOf(v.customFields),
+    dimsum: dimsumExtrasOf(v.customFields),
+    drink: drinkExtrasOf(v.customFields),
+    aiko: aikoOptsOf(v.customFields),
     station: str(v.station),
     brandName: brand?.name ?? "Brand",
     dishCode: str(v.dishCode),
@@ -282,17 +309,22 @@ function toViewData(v: RecipeFormValues, brands: FormBrand[], version: number | 
     prepMinutes: toNumberOrNull(v.prepMinutes),
     cookMinutes: toNumberOrNull(v.cookMinutes),
     totalMinutes: totalOf(v) || null,
+    timeText: timeTextOf(v.customFields),
     diet: (v.dietary ?? []).join(", ") || null,
     miseEnPlace: v.miseEnPlace ?? [],
     equipment: v.equipment ?? [],
     qualityCheck: v.qualityCheck ?? [],
-    ingredients: (v.ingredients ?? []).map((i) => ({ name: i.name ?? "", quantity: toNumberOrNull(i.quantity), unit: i.unit ?? null })),
-    steps: (v.steps ?? []).map((s) => s.body ?? ""),
+    garnish: garnishOf(v.customFields),
+    ingredients: (v.ingredients ?? []).map((i) => ({ name: i.name ?? "", quantity: toNumberOrNull(i.quantity), unit: i.unit ?? null, groupLabel: i.groupLabel ?? null })),
+    steps: (v.steps ?? []).map((s) => ({ title: str(s.title), body: s.body ?? "" })),
     plating: str(v.plating),
     holding: str(v.holding),
     allergens: str(v.allergens),
+    notes: str(v.notes),
   };
 }
+
+const SECTIONS_PLACEHOLDER = ["# SAUCE REFERENCE // (CORN ROCKS SAUCE)", "* Ingredients | Gram", "Mayonnaise | 40", "Sweet corn puree | 20", "> Whisk until smooth. Keep refrigerated."].join("\n");
 
 const DESIGN_WIDTH = 1000; // the SOP page's max width
 
@@ -307,6 +339,7 @@ function LivePreview({
 }) {
   const values = useWatch({ control }) as RecipeFormValues;
   const data = useMemo(() => toViewData(values, brands, version), [values, brands, version]);
+  const template = brands.find((b) => b.id === values.brandId)?.template ?? "classic";
   const outerRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
 
@@ -336,9 +369,11 @@ function LivePreview({
           }
         }}
       >
-        <RecipeSopView
+        <SopCard
+          template={template}
           editable
           data={data}
+          heroUrl={heroPreview}
           hero={
             heroPreview ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -355,7 +390,29 @@ function LivePreview({
 
 // ---------- editor ----------
 
-export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?: RecipeFormInitial }) {
+export function RecipeForm({
+  brands,
+  initial,
+  handleRef,
+  portal = false,
+  hrefAfterCreate = (id) => `/admin/recipes/${id}`,
+  editorTop,
+  editorBody,
+  onPickField,
+}: {
+  brands: FormBrand[];
+  initial?: RecipeFormInitial;
+  handleRef?: Ref<RecipeFormHandle>;
+  /** Portal mode: the save bar publishes; drafts are saved from the surrounding toolbar. */
+  portal?: boolean;
+  hrefAfterCreate?: (id: string) => string;
+  /** Rendered at the top of the editor panel (e.g. a toolbar). */
+  editorTop?: ReactNode;
+  /** When set, shown in the editor panel in place of the form sections. */
+  editorBody?: ReactNode;
+  /** Called when a field is picked from the live preview. */
+  onPickField?: () => void;
+}) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [formError, setFormError] = useState<string | null>(null);
@@ -406,6 +463,13 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
   }, [jumpTo]);
 
   function pickFromPreview(path: string) {
+    onPickField?.();
+    if (editorBody) {
+      // The form sections only become visible after the parent re-renders.
+      setMobileTab("edit");
+      focusPath(path);
+      return;
+    }
     if (mobileTab === "preview") {
       setMobileTab("edit");
       focusPath(path);
@@ -431,10 +495,10 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
     setHeroPreview(URL.createObjectURL(file));
   }
 
-  function onSubmit(data: RecipeInput) {
+  function onSubmit(data: RecipeInput, status?: RecipeInput["status"]) {
     setFormError(null);
-    // Status is managed by the Publish/Unpublish actions above the editor; keep whatever is current.
-    const input = { ...data, status: initial?.status ?? data.status };
+    // Unless a status is asked for, keep whatever is current (the admin panel's Publish/Unpublish actions manage it).
+    const input = { ...data, status: status ?? initial?.status ?? data.status };
     startTransition(async () => {
       const result = initial?.id
         ? await updateRecipeAction(initial.id, input, initial.version)
@@ -445,7 +509,7 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
       }
       setSavedAt(Date.now());
       if (initial?.id) router.refresh();
-      else router.push(`/admin/recipes/${result.data.id}`);
+      else router.push(hrefAfterCreate(result.data.id));
     });
   }
 
@@ -464,7 +528,16 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
     return () => window.clearTimeout(t);
   }, [savedAt]);
 
-  const submit = () => handleSubmit(onSubmit, onInvalid)();
+  const submit = () => handleSubmit((d) => onSubmit(d, portal ? "PUBLISHED" : undefined), onInvalid)();
+
+  useImperativeHandle(handleRef, () => ({
+    pickHeroImage: () => fileRef.current?.click(),
+    save: () => void submit(),
+    saveDraft: () => {
+      if (initial?.status === "PUBLISHED" && !confirm("Saving as a draft takes this recipe off the live site. Continue?")) return;
+      void handleSubmit((d) => onSubmit(d, "DRAFT"), onInvalid)();
+    },
+  }));
   const ingErrors = errors.ingredients as unknown as { name?: { message?: string } }[] | undefined;
   const stepErrors = errors.steps as unknown as { body?: { message?: string } }[] | undefined;
 
@@ -512,11 +585,17 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
 
       {/* ---------------- Editor ---------------- */}
       <div className={`${mobileTab === "edit" ? "flex" : "hidden"} min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm lg:flex`}>
-        <div ref={editorRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        {editorTop}
+        {editorBody && <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5">{editorBody}</div>}
+        {/* Hidden, not unmounted, while editorBody shows — unsaved edits survive. */}
+        <div ref={editorRef} className={`min-h-0 flex-1 overflow-y-auto overscroll-contain ${editorBody ? "hidden" : ""}`}>
           <Section id="basic" title="Basic information">
             <div className="grid grid-cols-2 gap-3">
               <Field path="title" label="Recipe name" error={errors.title?.message} className="col-span-2">
                 <input {...register("title")} className={`${inputCls} text-base font-semibold`} placeholder="Persimmon Salad" />
+              </Field>
+              <Field path="subtitle" label="Subtitle (optional)" className="col-span-2">
+                <input {...register("subtitle")} className={inputCls} placeholder="(Chilli / Salted)" />
               </Field>
               <Field path="brandId" label="Brand" error={errors.brandId?.message}>
                 <select
@@ -597,6 +676,8 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
               <Field path="totalMinutes" label="Total (auto)">
                 <input readOnly tabIndex={-1} value={`~${totalOf({ prepMinutes: prep, cookMinutes: cook, restMinutes: rest })} min`} className={`${inputCls} bg-slate-50 text-slate-500`} />
               </Field>
+              <Field path="dishType" label="Type"><input {...register("dishType")} className={inputCls} placeholder="Fried appetizer" /></Field>
+              <Field path="service" label="Service"><input {...register("service")} className={inputCls} placeholder="Hot" /></Field>
               <Field path="dietary" label="Diet" className="col-span-2">
                 <DietInput control={control} />
               </Field>
@@ -630,7 +711,10 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
                   <li key={field.id} data-edit={`ingredients.${i}`} className={targetCls}>
                     <div className="grid grid-cols-[20px_1fr_60px_60px] items-center gap-1.5 sm:grid-cols-[20px_1fr_72px_72px_84px]">
                       <span className="text-right text-[11px] tabular-nums text-slate-400">{i + 1}</span>
-                      <input {...register(`ingredients.${i}.name` as const)} placeholder="Ingredient" className={inputCls} />
+                      <div className="flex min-w-0 flex-col gap-1">
+                        <input {...register(`ingredients.${i}.name` as const)} placeholder="Ingredient" className={inputCls} />
+                        <input {...register(`ingredients.${i}.groupLabel` as const)} placeholder="Group heading (optional), e.g. Ingredients | Gram" className={`${inputCls} py-1 text-xs`} />
+                      </div>
                       <input
                         {...register(`ingredients.${i}.quantity` as const, { setValueAs: toNumberOrNull })}
                         type="number" step="any" min={0} inputMode="decimal" placeholder="Qty" className={inputCls}
@@ -661,7 +745,10 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
                   <li key={field.id} data-edit={`steps.${i}`} className={targetCls}>
                     <div className="flex items-start gap-2">
                       <span className="mt-1.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#1F3D2D] text-[11px] font-bold text-white">{i + 1}</span>
-                      <textarea {...register(`steps.${i}.body` as const)} rows={2} className={`${inputCls} flex-1`} placeholder="Describe this step…" />
+                      <div className="flex min-w-0 flex-1 flex-col gap-1">
+                        <input {...register(`steps.${i}.title` as const)} placeholder="Section heading (optional) — starts a new numbered section" className={`${inputCls} py-1 text-xs`} />
+                        <textarea {...register(`steps.${i}.body` as const)} rows={2} className={inputCls} placeholder="Describe this step…" />
+                      </div>
                       <RowButtons index={i} count={stepArray.fields.length} label="step" onMove={stepArray.move} onRemove={() => stepArray.remove(i)} />
                     </div>
                     {stepErrors?.[i]?.body?.message && <p className="ml-8 mt-0.5 text-xs font-medium text-red-600">{stepErrors[i].body!.message}</p>}
@@ -684,6 +771,16 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
           <Section id="quality" title="Quality check">
             <StringListEditor control={control} name="qualityCheck" itemLabel="check" placeholder="Greens crisp" focusPath={focusPath} />
           </Section>
+
+          <Section id="sopSections" title="Extra tables (sub-recipes, sauces)">
+            <Field path="sopSections" label="One panel per # line">
+              <textarea {...register("sopSections")} rows={8} className={`${inputCls} font-mono text-xs`} placeholder={SECTIONS_PLACEHOLDER} />
+            </Field>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-slate-500">
+              <code># Title // subtitle @side</code> starts a panel (@lead, @mid, @side or @bottom) · <code>* Ingredients | Gram</code> header ·{" "}
+              <code>Name | 40</code> row · <code>## Sub-heading</code> · <code>&gt; note</code> · <code>- bullet</code>
+            </p>
+          </Section>
         </div>
 
         {/* Save bar */}
@@ -704,7 +801,7 @@ export function RecipeForm({ brands, initial }: { brands: FormBrand[]; initial?:
             disabled={pending || uploadingHero}
             className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-bold text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
           >
-            {pending ? "Saving…" : initial?.id ? "Save changes" : "Create recipe"}
+            {pending ? "Saving…" : portal ? "Save" : initial?.id ? "Save changes" : "Create recipe"}
           </button>
         </div>
       </div>

@@ -11,7 +11,16 @@ import type { z } from "zod";
 
 type FormValues = z.input<typeof BrandInputSchema>;
 
-export function BrandForm({ id, initial }: { id?: string; initial?: Partial<FormValues> }) {
+export function BrandForm({
+  id,
+  initial,
+  savedHrefBase = "/admin/brands",
+}: {
+  id?: string;
+  initial?: Partial<FormValues>;
+  /** After saving, go to `${savedHrefBase}/${id}`. */
+  savedHrefBase?: string;
+}) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +48,7 @@ export function BrandForm({ id, initial }: { id?: string; initial?: Partial<Form
         setError(result.error);
         return;
       }
-      router.push(`/admin/brands/${result.data.id}`);
+      router.push(`${savedHrefBase}/${result.data.id}`);
       router.refresh();
     });
   }

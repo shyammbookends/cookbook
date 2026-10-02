@@ -38,7 +38,8 @@ export async function loginAction(_prev: ActionState, formData: FormData): Promi
 
   await db.admin.update({ where: { id: admin.id }, data: { lastLoginAt: new Date() } });
   await createSession(admin.id);
-  redirect(next.startsWith("/admin") ? next : "/admin");
+  // Same-site paths only ("//host" and "/\host" would be open redirects).
+  redirect(/^\/(?![/\\])/.test(next) ? next : "/admin");
 }
 
 export async function logoutAction(): Promise<void> {
@@ -46,9 +47,13 @@ export async function logoutAction(): Promise<void> {
   redirect("/admin/login");
 }
 
-export async function secretLoginAction(secret: string): Promise<ActionState> {
-  if (secret !== "bookends") {
-    return { error: "Invalid secret." };
+// Admin panel access (checked on the server only; the browser never sees these).
+const ADMIN_ID = "BookendsAdmin";
+const ADMIN_PASSWORD = "Bookendscab";
+
+export async function secretLoginAction(id: string, password: string, next = "/admin"): Promise<ActionState> {
+  if (id.trim() !== ADMIN_ID || password !== ADMIN_PASSWORD) {
+    return { error: "Incorrect ID or password." };
   }
 
   // Find the seeded owner admin
@@ -62,7 +67,7 @@ export async function secretLoginAction(secret: string): Promise<ActionState> {
 
   await db.admin.update({ where: { id: admin.id }, data: { lastLoginAt: new Date() } });
   await createSession(admin.id);
-  redirect("/admin/recipes");
+  redirect(/^\/(?![/\\])/.test(next) ? next : "/admin");
 }
 
 export async function changePasswordAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -89,8 +94,8 @@ export async function changePasswordAction(_prev: ActionState, formData: FormDat
   }
 }
 
-export async function requireAdminOrRedirect() {
+export async function requireAdminOrRedirect(next?: string) {
   const admin = await getCurrentAdmin();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect(next ? `/admin/login?next=${encodeURIComponent(next)}` : "/admin/login");
   return admin;
 }

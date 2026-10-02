@@ -23,7 +23,10 @@ export async function createBrand(input: BrandInput) {
   const clash = await db.brand.findUnique({ where: { slug } });
   if (clash) throw new ValidationError("That slug is already used by another brand.", { slug: ["Slug already in use."] });
 
-  return db.brand.create({ data: { ...input, slug } });
+  const created = await db.brand.create({ data: { ...input, slug } });
+  revalidateTag("brands");
+  revalidateTag(`brand:${slug}`);
+  return created;
 }
 
 export async function updateBrand(id: string, input: BrandInput) {
@@ -48,4 +51,26 @@ export async function setBrandStatus(id: string, status: "ACTIVE" | "HIDDEN") {
   revalidateTag("brands");
   revalidateTag(`brand:${brand.slug}`);
   return brand;
+}
+
+/** The portal home's own brand; deleting it would break the portal. */
+const PORTAL_BRAND_SLUG = "bookends";
+
+/**
+ * Permanently deletes a brand with all of its recipes, categories and tags
+ * (their relations to the brand are ON DELETE RESTRICT, so they go first).
+ */
+export async function deleteBrand(id: string) {
+  const brand = await db.brand.findUnique({ where: { id } });
+  if (!brand) throw new NotFoundError("Brand");
+  if (brand.slug === PORTAL_BRAND_SLUG) throw new ValidationError("The Bookends portal brand can't be deleted.");
+
+  await db.$transaction([
+    db.recipe.deleteMany({ where: { brandId: id } }),
+    db.tag.deleteMany({ where: { brandId: id } }),
+    db.category.deleteMany({ where: { brandId: id } }),
+    db.brand.delete({ where: { id } }),
+  ]);
+  revalidateTag("brands");
+  revalidateTag(`brand:${brand.slug}`);
 }

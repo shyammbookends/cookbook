@@ -23,7 +23,7 @@ function scope(brandId: string): Prisma.RecipeWhereInput {
   };
 }
 
-const CARD_SELECT = {
+export const CARD_SELECT = {
   id: true,
   slug: true,
   title: true,
@@ -199,6 +199,9 @@ const DETAIL_SELECT = {
   summary: true,
   sopVersion: true,
   qualityCheck: true,
+  dishType: true,
+  service: true,
+  sopSections: true,
   customFields: true,
   seoTitle: true,
   seoDescription: true,

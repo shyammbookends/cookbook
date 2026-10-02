@@ -19,6 +19,8 @@ export const BrandThemeSchema = z.object({
   fontDisplay: z.enum(["script", "marker", "flared-serif", "grotesk", "heavy"]).default("heavy"),
   fontBody: z.enum(["serif-italic", "sans"]).default("serif-italic"),
   motion: z.enum(["loud", "slow-burn", "calm", "feral"]).default("calm"),
+  /** Which recipe/SOP card design this brand uses (see lib/sop/templates.ts). */
+  sopTemplate: z.enum(["classic", "aiko"]).optional(),
 });
 
 export type BrandTheme = z.infer<typeof BrandThemeSchema>;

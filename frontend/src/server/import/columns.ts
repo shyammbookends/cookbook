@@ -32,7 +32,7 @@ export const IMPORT_COLUMNS: ColumnDef[] = [
     help: "One ingredient per line. Start a line with ## to add a group header (e.g. ## For the sauce).",
     aliases: ["ingredient list"] },
   { key: "prep_steps", label: "Prep steps", required: false, example: "Mix the dough\nLet it rest 1 hour",
-    help: "One step per line.", aliases: ["preparation", "prep instructions", "prep"] },
+    help: "One step per line. A line starting with ## (e.g. ## Biga Preparation) starts a new numbered section.", aliases: ["preparation", "prep instructions", "prep"] },
   { key: "cook_steps", label: "Cook steps", required: true, example: "Bake at 250C for 8 minutes",
     help: "One step per line. At least one of prep_steps or cook_steps is required.", aliases: ["instructions", "method", "directions", "cooking instructions", "cook"] },
   { key: "prep_time", label: "Prep time", required: false, example: "20 min", help: "e.g. 20, 20 min, 1h 20m.", aliases: ["prep minutes", "preparation time"] },
@@ -74,6 +74,13 @@ export const IMPORT_COLUMNS: ColumnDef[] = [
   { key: "plating", label: "Plating", required: false, example: "Serve in a bowl", help: "Plating instructions.", aliases: ["presentation"] },
   { key: "holding", label: "Holding", required: false, example: "Keep warm", help: "Holding instructions.", aliases: ["storage"] },
   { key: "allergens", label: "Allergens", required: false, example: "Gluten, Milk", help: "Allergen warnings.", aliases: ["allergy"] },
+  { key: "station", label: "Station", required: false, example: "Cold Station", help: "Kitchen station shown on the SOP card.", aliases: ["kitchen station"] },
+  { key: "summary", label: "Summary", required: false, example: "Light, bright and balanced.", help: "One-line quote under the stats on the SOP card.", aliases: ["tagline", "quote"] },
+  { key: "quality_check", label: "Quality Check", required: false, example: "Greens crisp\nServed chilled", help: "One check per line.", aliases: ["quality checks", "qc"] },
+  { key: "subtitle", label: "Subtitle", required: false, example: "(Chilli / Salted)", help: "Optional line under the title.", aliases: [] },
+  { key: "dish_type", label: "Dish Type", required: false, example: "Fried appetizer", help: "TYPE on brand cards that show it (e.g. Aiko).", aliases: ["type of dish"] },
+  { key: "service", label: "Service", required: false, example: "Hot", help: "SERVICE on brand cards that show it (e.g. Aiko).", aliases: ["service temp"] },
+  { key: "sop_sections", label: "Extra Tables", required: false, example: "# SAUCE REFERENCE // (CORN ROCKS SAUCE)\n* Ingredients | Gram\nMayonnaise | 40", help: "Sub-recipe / sauce panels: # Title // subtitle @side, * Header | Gram, Name | 40, ## Sub-heading, > note.", aliases: ["sub recipes", "sauce tables"] },
 ];
 
 export const REQUIRED_COLUMN_KEYS = IMPORT_COLUMNS.filter((c) => c.required).map((c) => c.key);

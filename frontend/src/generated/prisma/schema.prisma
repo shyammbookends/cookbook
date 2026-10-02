@@ -283,6 +283,9 @@ model Recipe {
   summary        String? // short editorial line in the SOP summary area
   sopVersion     String? // human SOP version ("2.1"); falls back to `version` when empty
   qualityCheck   String[]  @default([])
+  dishType       String? // SOP "TYPE" stat, e.g. "Fried appetizer" (Aiko card)
+  service        String? // SOP "SERVICE" stat, e.g. "Hot" (Aiko card)
+  sopSections    String? // extra SOP panels (sub-recipes, references), text format of lib/sop/sections.ts
 
   customFields Json @default("{}")
 

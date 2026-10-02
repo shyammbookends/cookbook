@@ -7,10 +7,11 @@ import type { Brand } from "@/generated/prisma/client";
 import { BeshakLogo } from "@/components/brand/BeshakLogo";
 import { GhasletLogo } from "@/components/brand/GhasletLogo";
 
-export function BrandHeader({ brand }: { brand: Brand }) {
+export function BrandHeader({ brand, base = "" }: { brand: Brand; base?: string }) {
   const pathname = usePathname();
-  const isBrandHome = pathname === `/${brand.slug}`;
-  const backHref = isBrandHome ? "/" : `/${brand.slug}`;
+  const brandHome = `${base}/${brand.slug}`;
+  const isBrandHome = pathname === brandHome;
+  const backHref = isBrandHome ? base || "/" : brandHome;
   const backLabel = isBrandHome ? "Portal" : brand.name;
 
   return (
@@ -27,13 +28,16 @@ export function BrandHeader({ brand }: { brand: Brand }) {
           <span className="hidden sm:inline">{backLabel}</span>
         </Link>
         <Link 
-          href={`/${brand.slug}`} 
+          href={brandHome}
           className="flex items-center"
         >
           {brand.slug === "beshak" ? (
             <BeshakLogo color="white" className="h-6 sm:h-7 w-auto" />
           ) : brand.slug === "ghaslet" ? (
             <GhasletLogo className="h-10 sm:h-12 w-auto" />
+          ) : brand.slug === "capiche" ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/brands/capiche-logo.png" alt="Capiche" className="h-9 w-auto sm:h-11" />
           ) : (
             <span
               className={`text-2xl sm:text-3xl font-bold ${
