@@ -18,7 +18,9 @@ declare global {
 function createClient() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error("DATABASE_URL is not set.");
+    throw new Error(
+      "DATABASE_URL is not set. Add it in Vercel > Project Settings > Environment Variables (Production scope) and redeploy.",
+    );
   }
   // Small pool: on serverless every warm instance holds its own connections.
   const adapter = new PrismaPg({ connectionString, max: Number(process.env.DATABASE_POOL_MAX ?? 5) });
