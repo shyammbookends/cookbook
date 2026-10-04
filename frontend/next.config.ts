@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
   // elements — no on-the-fly Next Image optimization needed.
   images: { unoptimized: true },
 
+  // /api/pdf launches @sparticuz/chromium, which loads its compressed browser from
+  // its own bin/ folder at runtime — file tracing can't see that, so ship it explicitly.
+  // (Paths are relative to this folder; node_modules lives one level up.)
+  outputFileTracingIncludes: {
+    "/api/pdf": ["../node_modules/@sparticuz/chromium/bin/**"],
+  },
+
   experimental: {
     serverActions: {
       bodySizeLimit: "20mb",

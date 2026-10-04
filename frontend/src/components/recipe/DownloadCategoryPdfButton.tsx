@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { buildRecipePrintDocument, downloadRecipePdf, pdfFileName, type PrintRecipe } from "@/lib/recipe-print";
+import { buildRecipePrintDocument, downloadRecipePdf, downloadServerPdf, pdfFileName, type PrintRecipe } from "@/lib/recipe-print";
 import type { SopTemplateKey } from "@/lib/sop/templates";
 
 export function DownloadCategoryPdfButton({
@@ -20,7 +20,11 @@ export function DownloadCategoryPdfButton({
     setLoading(true);
     setProgress("");
     try {
-      const res = await fetch(`/api/category-pdf?brand=${encodeURIComponent(brandSlug)}&category=${encodeURIComponent(categorySlug)}`);
+      const params = new URLSearchParams({ brand: brandSlug, category: categorySlug });
+      if (await downloadServerPdf(params, `${categoryName}.pdf`)) return;
+
+      // Fallback: build the PDF in the browser.
+      const res = await fetch(`/api/category-pdf?${params}`);
       if (!res.ok) throw new Error("Failed to fetch recipes");
       const data: {
         brandName: string;

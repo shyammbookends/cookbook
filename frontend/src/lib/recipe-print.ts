@@ -520,6 +520,37 @@ ${sheets}
 }
 
 /**
+ * Downloads the server-rendered PDF (/api/pdf — cached on the CDN, so usually
+ * instant). Returns false if the server can't provide it, so the caller can
+ * fall back to building the PDF in the browser with downloadRecipePdf().
+ */
+export async function downloadServerPdf(params: URLSearchParams, fallbackName: string): Promise<boolean> {
+  try {
+    const res = await fetch(`/api/pdf?${params}`);
+    if (!res.ok || !res.headers.get("content-type")?.includes("application/pdf")) return false;
+    const blob = await res.blob();
+    const disposition = res.headers.get("content-disposition") ?? "";
+    const utf8 = /filename\*=UTF-8''([^;]+)/i.exec(disposition)?.[1];
+    saveBlob(blob, utf8 ? decodeURIComponent(utf8) : fallbackName);
+    return true;
+  } catch (err) {
+    console.warn("Server PDF unavailable, building it in the browser instead.", err);
+    return false;
+  }
+}
+
+function saveBlob(blob: Blob, fileName: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}
+
+/**
  * Builds a real .pdf file from the printable document and downloads it directly
  * (no print dialog). The document is laid out in an off-screen iframe at A4
  * width, so the PDF is the exact same one-recipe-per-page card on every device;

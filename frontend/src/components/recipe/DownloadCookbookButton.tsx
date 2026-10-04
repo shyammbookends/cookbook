@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { buildRecipePrintDocument, downloadRecipePdf, pdfFileName } from "@/lib/recipe-print";
+import { buildRecipePrintDocument, downloadRecipePdf, downloadServerPdf, pdfFileName } from "@/lib/recipe-print";
 import type { CookbookCategory } from "@/lib/sop/cookbook";
 import type { SopTemplateKey } from "@/lib/sop/templates";
 
 /**
  * Brand home: downloads the brand's whole cookbook (cover, index, then every
- * category's recipes, one A4 page each) as one PDF. Data is fetched fresh on
- * every click, so added / removed recipes are reflected automatically.
+ * category's recipes, one A4 page each) as one PDF. The server-rendered PDF is
+ * versioned by content, so added / removed recipes are reflected automatically.
  */
 export function DownloadCookbookButton({ brandSlug, brandName }: { brandSlug: string; brandName: string }) {
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,11 @@ export function DownloadCookbookButton({ brandSlug, brandName }: { brandSlug: st
     setLoading(true);
     setProgress("");
     try {
-      const res = await fetch(`/api/category-pdf?brand=${encodeURIComponent(brandSlug)}&cookbook=1`, { cache: "no-store" });
+      const params = new URLSearchParams({ brand: brandSlug, cookbook: "1" });
+      if (await downloadServerPdf(params, pdfFileName(brandName, "Master Cookbook"))) return;
+
+      // Fallback: build the PDF in the browser.
+      const res = await fetch(`/api/category-pdf?${params}`, { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to fetch recipes");
       const data: { brandName: string; template: SopTemplateKey; categories: CookbookCategory[] } = await res.json();
 

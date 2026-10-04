@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { buildRecipePrintDocument, downloadRecipePdf, pdfFileName, type PrintRecipe } from "@/lib/recipe-print";
+import { buildRecipePrintDocument, downloadRecipePdf, downloadServerPdf, pdfFileName, type PrintRecipe } from "@/lib/recipe-print";
 import type { SopTemplateKey } from "@/lib/sop/templates";
 
 /** Downloads the recipe as a PDF of the same single-page A4 SOP card used by the category download. */
@@ -11,7 +11,11 @@ export function PrintPdfButton({ brandSlug, recipeSlug }: { brandSlug: string; r
   const handleClick = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/category-pdf?brand=${encodeURIComponent(brandSlug)}&recipe=${encodeURIComponent(recipeSlug)}`);
+      const params = new URLSearchParams({ brand: brandSlug, recipe: recipeSlug });
+      if (await downloadServerPdf(params, `${recipeSlug}.pdf`)) return;
+
+      // Fallback: build the PDF in the browser.
+      const res = await fetch(`/api/category-pdf?${params}`);
       if (!res.ok) throw new Error("Failed to fetch recipe");
       const data: { brandName: string; template: SopTemplateKey; recipes: PrintRecipe[] } = await res.json();
       const recipe = data.recipes[0];
