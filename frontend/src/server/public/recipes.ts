@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { db } from "@/server/db";
 import { Prisma } from "@/generated/prisma/client";
 
@@ -224,12 +225,13 @@ const DETAIL_SELECT = {
 
 export type RecipeDetailData = Prisma.RecipeGetPayload<{ select: typeof DETAIL_SELECT }>;
 
-export async function getRecipeBySlug(brandId: string, slug: string): Promise<RecipeDetailData | null> {
+// cache(): generateMetadata and the page both ask for the same recipe — one query per request.
+export const getRecipeBySlug = cache(async (brandId: string, slug: string): Promise<RecipeDetailData | null> => {
   return db.recipe.findFirst({
     where: { slug, ...scope(brandId) },
     select: DETAIL_SELECT,
   });
-}
+});
 
 /** All PUBLISHED recipe slugs for a brand — for generateStaticParams. */
 export async function getAllPublishedSlugs(brandId: string): Promise<string[]> {

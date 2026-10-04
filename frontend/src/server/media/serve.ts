@@ -51,6 +51,17 @@ export async function serveMedia(segments: string[]): Promise<Response> {
   }
   const mediaId = segments[0];
 
+  // The file is fetched from storage WHILE the access check runs (they are
+  // independent round trips), but it is only returned once the check passes.
+  const filePromise = (async () => {
+    if (segments.length === 2) return readStoredFile(`media/${segments.join("/")}`);
+    // Bare "/media/<id>" → the largest WebP variant.
+    const media = await db.media.findFirst({ where: { id: mediaId, deletedAt: null }, select: { variants: true } });
+    const best = asVariants(media?.variants).filter((v) => v.format === "webp").sort((a, b) => b.w - a.w)[0];
+    return best ? readStoredFile(best.key) : null;
+  })();
+  filePromise.catch(() => {}); // handled below; avoids an unhandled rejection when access is denied
+
   const isPublic = await isPublicMedia(mediaId);
   if (!isPublic) {
     // Not part of published content: only a signed-in admin may see it (drafts, library previews).
@@ -58,18 +69,10 @@ export async function serveMedia(segments: string[]): Promise<Response> {
     if (!admin) return notFound();
   }
 
-  let key = `media/${segments.join("/")}`;
-  if (segments.length === 1) {
-    // Bare "/media/<id>" → the largest WebP variant.
-    const media = await db.media.findFirst({ where: { id: mediaId, deletedAt: null }, select: { variants: true } });
-    const best = asVariants(media?.variants).filter((v) => v.format === "webp").sort((a, b) => b.w - a.w)[0];
-    if (!best) return notFound();
-    key = best.key;
-  }
-
+  const key = `media/${segments.join("/")}`;
   let file: { data: Buffer; contentType: string } | null = null;
   try {
-    file = await readStoredFile(key);
+    file = await filePromise;
   } catch (err) {
     console.error("media decrypt/read failed", err instanceof Error ? err.message : err);
     return new Response("Media unavailable", { status: 500, headers: { "Cache-Control": "no-store" } });
@@ -89,7 +92,9 @@ export async function serveMedia(segments: string[]): Promise<Response> {
       "X-Content-Type-Options": "nosniff",
       "Content-Disposition": "inline",
       // Public images may be CDN-cached; draft/library images are private and never cached.
-      "Cache-Control": isPublic ? "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400" : "private, no-store",
+      // A key never changes content (new uploads get a new media id), so public copies
+      // can stay cached for long: 7 days in the browser, 30 days on Vercel's CDN.
+      "Cache-Control": isPublic ? "public, max-age=604800, s-maxage=2592000, stale-while-revalidate=86400" : "private, no-store",
     },
   });
 }
