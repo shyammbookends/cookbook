@@ -8,6 +8,8 @@
     "start": "next start ./frontend",
     "lint": "eslint",
     "db:deploy": "prisma migrate deploy --config=backend/prisma.config.ts",
+    "db:copy-to-supabase": "tsx --conditions=react-server backend/scripts/migrate-to-supabase.ts",
+    "media:upload-to-supabase": "tsx --conditions=react-server backend/scripts/upload-media-to-supabase.ts",
     "db:migrate": "prisma migrate dev --schema=backend/prisma/schema.prisma",
     "db:generate": "prisma generate --schema=backend/prisma/schema.prisma",
     "db:seed": "tsx backend/prisma/seed.ts",

@@ -13,6 +13,17 @@ describe("media crypto (AES-256-GCM)", () => {
     expect(sealed.authTag.length).toBe(16);
     expect(decryptBytes(sealed, "media/x/1.webp").equals(plain)).toBe(true);
   });
+  it("seals Supabase objects with no plaintext and restores bytes + content type", async () => {
+    const { sealObject, openObject } = await import("@/server/media/supabaseStore");
+    const plain = Buffer.from("RIFF....WEBPVP8 image bytes");
+    const body = sealObject("media/x/640.webp", plain, "image/webp");
+    expect(body.includes(plain)).toBe(false);
+    expect(body.subarray(0, 4).toString()).toBe("BKE1");
+    const opened = openObject("media/x/640.webp", body);
+    expect(opened.data.equals(plain)).toBe(true);
+    expect(opened.contentType).toBe("image/webp");
+    expect(() => openObject("media/y/640.webp", body)).toThrow();
+  });
   it("rejects tampering and wrong AAD", async () => {
     const { encryptBytes, decryptBytes } = await import("@/server/media/crypto");
     const sealed = encryptBytes(Buffer.from("hello"), "media/a/1.webp");
