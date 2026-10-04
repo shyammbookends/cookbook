@@ -1,19 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { buildRecipePrintDocument, openPrintWindow, printInWindow, type PrintRecipe } from "@/lib/recipe-print";
+import { buildRecipePrintDocument, downloadRecipePdf, pdfFileName, type PrintRecipe } from "@/lib/recipe-print";
 import type { SopTemplateKey } from "@/lib/sop/templates";
 
-/** Prints the recipe as the same single-page A4 SOP card used by the category download. */
+/** Downloads the recipe as a PDF of the same single-page A4 SOP card used by the category download. */
 export function PrintPdfButton({ brandSlug, recipeSlug }: { brandSlug: string; recipeSlug: string }) {
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
-    const printWindow = openPrintWindow();
-    if (!printWindow) {
-      window.print();
-      return;
-    }
     setLoading(true);
     try {
       const res = await fetch(`/api/category-pdf?brand=${encodeURIComponent(brandSlug)}&recipe=${encodeURIComponent(recipeSlug)}`);
@@ -21,14 +16,13 @@ export function PrintPdfButton({ brandSlug, recipeSlug }: { brandSlug: string; r
       const data: { brandName: string; template: SopTemplateKey; recipes: PrintRecipe[] } = await res.json();
       const recipe = data.recipes[0];
       if (!recipe) throw new Error("Recipe not found");
-      printInWindow(
-        printWindow,
+      await downloadRecipePdf(
         buildRecipePrintDocument({ title: `${recipe.title} - ${data.brandName}`, brandName: data.brandName, recipes: [recipe], template: data.template }),
+        pdfFileName(data.brandName, recipe.title),
       );
     } catch (err) {
       console.error("PDF download error:", err);
-      printWindow.close();
-      window.print();
+      alert("Failed to generate PDF. Please try again.");
     } finally {
       setLoading(false);
     }

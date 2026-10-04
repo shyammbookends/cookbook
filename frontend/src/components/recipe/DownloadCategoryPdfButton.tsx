@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { buildRecipePrintDocument, openPrintWindow, printInWindow, type PrintRecipe } from "@/lib/recipe-print";
+import { buildRecipePrintDocument, downloadRecipePdf, pdfFileName, type PrintRecipe } from "@/lib/recipe-print";
 import type { SopTemplateKey } from "@/lib/sop/templates";
 
 export function DownloadCategoryPdfButton({
@@ -14,15 +14,11 @@ export function DownloadCategoryPdfButton({
   categoryName: string;
 }) {
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState("");
 
   const handleDownload = async () => {
-    // Open synchronously inside the click so pop-up blockers allow it.
-    const printWindow = openPrintWindow();
-    if (!printWindow) {
-      alert("Please allow pop-ups to download the PDF.");
-      return;
-    }
     setLoading(true);
+    setProgress("");
     try {
       const res = await fetch(`/api/category-pdf?brand=${encodeURIComponent(brandSlug)}&category=${encodeURIComponent(categorySlug)}`);
       if (!res.ok) throw new Error("Failed to fetch recipes");
@@ -36,13 +32,11 @@ export function DownloadCategoryPdfButton({
       } = await res.json();
 
       if (!data.recipes || data.recipes.length === 0) {
-        printWindow.close();
         alert("No recipes found in this category.");
         return;
       }
 
-      printInWindow(
-        printWindow,
+      await downloadRecipePdf(
         buildRecipePrintDocument({
           title: `${data.categoryName} - All Recipes - ${data.brandName}`,
           brandName: data.brandName,
@@ -50,10 +44,11 @@ export function DownloadCategoryPdfButton({
           template: data.template,
           collection: { categoryName: data.categoryName, number: data.categoryNumber, description: data.categoryDescription },
         }),
+        pdfFileName(data.brandName, data.categoryName),
+        (done, total) => setProgress(`${done}/${total}`),
       );
     } catch (err) {
       console.error("PDF download error:", err);
-      printWindow.close();
       alert("Failed to generate PDF. Please try again.");
     } finally {
       setLoading(false);
@@ -80,7 +75,7 @@ export function DownloadCategoryPdfButton({
           <line x1="12" y1="15" x2="12" y2="3" />
         </svg>
       )}
-      {loading ? "Generating..." : "Download PDF"}
+      {loading ? `Generating${progress ? ` ${progress}` : "..."}` : "Download PDF"}
     </button>
   );
 }

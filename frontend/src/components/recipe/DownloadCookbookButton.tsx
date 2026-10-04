@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { buildRecipePrintDocument, openPrintWindow, printInWindow } from "@/lib/recipe-print";
+import { buildRecipePrintDocument, downloadRecipePdf, pdfFileName } from "@/lib/recipe-print";
 import type { CookbookCategory } from "@/lib/sop/cookbook";
 import type { SopTemplateKey } from "@/lib/sop/templates";
 
@@ -12,28 +12,22 @@ import type { SopTemplateKey } from "@/lib/sop/templates";
  */
 export function DownloadCookbookButton({ brandSlug, brandName }: { brandSlug: string; brandName: string }) {
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState("");
 
   const handleDownload = async () => {
-    // Open synchronously inside the click so pop-up blockers allow it.
-    const win = openPrintWindow();
-    if (!win) {
-      alert("Please allow pop-ups to download the PDF.");
-      return;
-    }
     setLoading(true);
+    setProgress("");
     try {
       const res = await fetch(`/api/category-pdf?brand=${encodeURIComponent(brandSlug)}&cookbook=1`, { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to fetch recipes");
       const data: { brandName: string; template: SopTemplateKey; categories: CookbookCategory[] } = await res.json();
 
       if (!data.categories?.length) {
-        win.close();
         alert("No recipes found yet.");
         return;
       }
 
-      printInWindow(
-        win,
+      await downloadRecipePdf(
         buildRecipePrintDocument({
           title: `${data.brandName} - Master Cookbook`,
           brandName: data.brandName,
@@ -41,10 +35,11 @@ export function DownloadCookbookButton({ brandSlug, brandName }: { brandSlug: st
           template: data.template,
           cookbook: { categories: data.categories },
         }),
+        pdfFileName(data.brandName, "Master Cookbook"),
+        (done, total) => setProgress(`${done}/${total}`),
       );
     } catch (err) {
       console.error("Cookbook PDF error:", err);
-      win.close();
       alert("Failed to generate the cookbook PDF. Please try again.");
     } finally {
       setLoading(false);
@@ -72,7 +67,7 @@ export function DownloadCookbookButton({ brandSlug, brandName }: { brandSlug: st
           <line x1="12" y1="15" x2="12" y2="3" />
         </svg>
       )}
-      {loading ? "Generating…" : `Download Main Cookbook Of ${brandName}`}
+      {loading ? `Generating${progress ? ` ${progress}` : "…"}` : `Download Main Cookbook Of ${brandName}`}
     </button>
   );
 }

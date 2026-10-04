@@ -520,32 +520,79 @@ ${sheets}
 }
 
 /**
- * Opens the printable document in a new window and prints it once images,
- * fonts and the fit pass are done. Must be called synchronously from a click
- * (before any await) so pop-up blockers allow the window.
+ * Builds a real .pdf file from the printable document and downloads it directly
+ * (no print dialog). The document is laid out in an off-screen iframe at A4
+ * width, so the PDF is the exact same one-recipe-per-page card on every device;
+ * each `.sheet` is rendered to an image and placed on its own A4 page.
  */
-export function openPrintWindow(): Window | null {
-  return window.open("", "_blank");
+export async function downloadRecipePdf(
+  html: string,
+  fileName: string,
+  onProgress?: (done: number, total: number) => void,
+): Promise<void> {
+  // A cross-origin <link> stylesheet can't be read by the page, so the renderer
+  // would silently fall back to system fonts. Inline the Google Fonts CSS instead.
+  html = await inlineFontStylesheets(html);
+
+  const iframe = document.createElement("iframe");
+  iframe.setAttribute("aria-hidden", "true");
+  iframe.style.cssText = "position:fixed;left:-10000px;top:0;width:860px;height:1200px;border:0;";
+  document.body.appendChild(iframe);
+  try {
+    const doc = iframe.contentDocument!;
+    doc.open();
+    doc.write(html);
+    doc.close();
+
+    // Wait for images, fonts and the one-page fit pass (FIT_SCRIPT) to finish.
+    const win = iframe.contentWindow as Window & { __recipePrintReady?: Promise<void> };
+    const start = Date.now();
+    while (!win.__recipePrintReady && Date.now() - start < 5000) await new Promise((r) => setTimeout(r, 50));
+    await Promise.race([win.__recipePrintReady, new Promise((r) => setTimeout(r, 20000))]);
+
+    // modern-screenshot lets the browser itself draw each sheet (SVG foreignObject),
+    // so text spacing, italics and fonts match the on-screen card exactly.
+    const [{ createContext, destroyContext, domToCanvas }, { jsPDF }] = await Promise.all([import("modern-screenshot"), import("jspdf")]);
+    const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait", compress: true });
+    const sheets = Array.from(doc.querySelectorAll<HTMLElement>(".sheet"));
+    if (!sheets.length) throw new Error("Nothing to export.");
+    // One shared context: fonts and images are embedded once, not per page.
+    // scale 1.6 ≈ 155 DPI on A4: print-sharp, while a full cookbook stays a reasonable size.
+    const context = await createContext(sheets[0], { scale: 1.6, backgroundColor: "#FAF8F5", style: { margin: "0", boxShadow: "none" } });
+    try {
+      for (let i = 0; i < sheets.length; i++) {
+        onProgress?.(i, sheets.length);
+        context.node = sheets[i];
+        const canvas = await domToCanvas(context);
+        if (i > 0) pdf.addPage();
+        // JPEG keeps a long cookbook small (PNG pages would be ~1 MB each).
+        pdf.addImage(canvas.toDataURL("image/jpeg", 0.85), "JPEG", 0, 0, 210, 297);
+        canvas.width = canvas.height = 0; // free memory early (long cookbooks on phones)
+      }
+    } finally {
+      destroyContext(context);
+    }
+    onProgress?.(sheets.length, sheets.length);
+    pdf.save(fileName);
+  } finally {
+    iframe.remove();
+  }
 }
 
-export function printInWindow(win: Window, html: string) {
-  win.document.open();
-  win.document.write(html);
-  win.document.close();
-  const w = win as Window & { __recipePrintReady?: Promise<void> };
-  let printed = false;
-  const go = () => {
-    if (printed) return;
-    printed = true;
-    win.focus();
-    win.print();
-  };
-  const start = Date.now();
-  const wait = () => {
-    if (w.__recipePrintReady) w.__recipePrintReady.then(() => setTimeout(go, 150));
-    else if (Date.now() - start < 5000) setTimeout(wait, 50);
-    else go();
-  };
-  wait();
-  setTimeout(go, 10000); // never leave the user without a print dialog
+async function inlineFontStylesheets(html: string): Promise<string> {
+  const links = [...html.matchAll(/<link href="(https:\/\/fonts\.googleapis\.com\/[^"]+)" rel="stylesheet">/g)];
+  for (const [tag, href] of links) {
+    try {
+      const css = await fetch(href.replace(/&amp;/g, "&")).then((r) => (r.ok ? r.text() : Promise.reject(r.status)));
+      html = html.replace(tag, `<style>${css}</style>`);
+    } catch {
+      // Offline / blocked: keep the <link>; the PDF then uses fallback fonts.
+    }
+  }
+  return html;
+}
+
+/** A safe file name, e.g. "Capiche - Pizza.pdf". */
+export function pdfFileName(...parts: string[]): string {
+  return `${parts.filter(Boolean).join(" - ").replace(/[\\/:*?"<>|]+/g, "").trim() || "recipes"}.pdf`;
 }
