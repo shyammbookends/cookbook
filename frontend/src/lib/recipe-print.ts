@@ -208,6 +208,11 @@ function buildRecipeSheet(r: PrintRecipe, brandName: string): string {
 </section>`;
 }
 
+// Phones lay the preview out at A4 width and zoom it to fit the screen, so every
+// device shows (and prints) the exact same one-recipe-per-page card design
+// instead of a reflowed single-column version.
+const PRINT_VIEWPORT = "width=860";
+
 const STYLES = `
 @page { size: A4 portrait; margin: 0; }
 * { box-sizing: border-box; }
@@ -308,15 +313,6 @@ footer .brand { color: #D4B572; font-family: "Playfair Display", Georgia, serif;
   .sheet { margin: 0; box-shadow: none; }
 }
 
-/* Small screens (preview window only — print always uses the A4 layout). */
-@media screen and (max-width: 820px) {
-  .sheet:not(.measure):not(.aiko) { width: auto; height: auto; min-height: 0; margin: 12px; padding: 16px; border-radius: 12px; overflow: visible; }
-  .sheet:not(.measure):not(.aiko) .inner { transform: none; width: auto; min-height: 0; }
-  .sheet:not(.measure) .top, .sheet:not(.measure) .body { grid-template-columns: 1fr; }
-  .sheet:not(.measure) .body .col + .col { border-left: 0; padding-left: 0; }
-  .sheet:not(.measure) .photo { height: auto; aspect-ratio: 4 / 3; }
-  .sheet.cover:not(.measure) { min-height: 70vh; }
-}
 `;
 
 // Measures every recipe sheet at true A4 size (off-screen, so it works in a
@@ -409,7 +405,7 @@ export function buildRecipePrintDocument(opts: {
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="${PRINT_VIEWPORT}">
 <title>${esc(opts.title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -508,7 +504,7 @@ function buildAikoDocument(opts: Parameters<typeof buildRecipePrintDocument>[0])
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="${PRINT_VIEWPORT}">
 <title>${esc(opts.title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -158,5 +158,4 @@ export const COOKBOOK_CSS = `
 .cb-cat { break-inside: avoid; margin-bottom: 5mm; }
 .cb-cat h3 { font-size: 15px; font-weight: 700; color: #D95F1E; margin: 0 0 2mm; padding-bottom: 1.6mm; border-bottom: 1.4px solid #D9873E; letter-spacing: .01em; }
 .cb-row { display: flex; justify-content: space-between; gap: 6px; font-size: 10px; line-height: 1.32; padding: .5mm 1mm; }
-@media screen and (max-width: 820px) { .sheet.cb-cover, .sheet.cb-index { margin: 12px auto; } }
 `;
