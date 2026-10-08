@@ -6,8 +6,11 @@ import { BrandCardLink, PortalPageFade } from "@/components/portal/BrandCardLink
 import { BeshakLogo } from "@/components/brand/BeshakLogo";
 import { GhasletLogo } from "@/components/brand/GhasletLogo";
 
-/** The portal home (brand picker), shared by the public portal and the admin portal (base "/admin"). */
-export async function PortalHomeView({ base = "" }: { base?: string }) {
+/**
+ * The portal home (brand picker), shared by the public portal and the admin portal (base "/admin").
+ * `top` renders above the hero, inside the themed background (the admin toolbar).
+ */
+export async function PortalHomeView({ base = "", top }: { base?: string; top?: React.ReactNode }) {
   const [portal, brands] = await Promise.all([getPortalBrand(), getActiveBrands()]);
   const theme = portal ? BrandThemeSchema.parse(portal.theme) : null;
   const cssVars = theme ? themeToCssVars(theme) : {};
@@ -16,6 +19,7 @@ export async function PortalHomeView({ base = "" }: { base?: string }) {
     <div data-brand={portal?.slug} style={cssVars as React.CSSProperties} className="min-h-screen bg-brand-bg text-brand-fg transition-colors duration-1000 overflow-x-hidden">
       <PortalPageFade>
       {!base && <SecretAdminButton />}
+      {top}
       <section className="relative overflow-hidden">
         <div
           className="pointer-events-none absolute inset-0 opacity-40"

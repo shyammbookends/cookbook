@@ -586,9 +586,9 @@ export function RecipeForm({
       {/* ---------------- Editor ---------------- */}
       <div className={`${mobileTab === "edit" ? "flex" : "hidden"} min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm lg:flex`}>
         {editorTop}
-        {editorBody && <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5">{editorBody}</div>}
+        {editorBody && <div className="p-5 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain">{editorBody}</div>}
         {/* Hidden, not unmounted, while editorBody shows — unsaved edits survive. */}
-        <div ref={editorRef} className={`min-h-0 flex-1 overflow-y-auto overscroll-contain ${editorBody ? "hidden" : ""}`}>
+        <div ref={editorRef} className={`lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain ${editorBody ? "hidden" : ""}`}>
           <Section id="basic" title="Basic information">
             <div className="grid grid-cols-2 gap-3">
               <Field path="title" label="Recipe name" error={errors.title?.message} className="col-span-2">
@@ -807,7 +807,7 @@ export function RecipeForm({
       </div>
 
       {/* ---------------- Live preview ---------------- */}
-      <div className={`${mobileTab === "preview" ? "block" : "hidden"} min-h-0 overflow-y-auto overscroll-contain rounded-xl border border-slate-200 bg-[#FAF8F5] shadow-sm lg:block`}>
+      <div className={`${mobileTab === "preview" ? "block" : "hidden"} rounded-xl border border-slate-200 bg-[#FAF8F5] shadow-sm lg:block lg:min-h-0 lg:overflow-y-auto lg:overscroll-contain`}>
         <LivePreview control={control} brands={brands} version={initial?.version} heroPreview={heroPreview} onPick={pickFromPreview} />
       </div>
     </form>
