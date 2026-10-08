@@ -86,6 +86,18 @@ body {
   background-image: linear-gradient(90deg, var(--brand-gradient));
 }
 
+/*
+ * iPhone/iPad (iOS Safari — and every iOS browser, which all use WebKit) zooms
+ * the whole page in when a focused field's text is smaller than 16px, and does
+ * not zoom back out. Lift small form text to 16px on iOS only; Android and
+ * desktop keep the designed sizes. Unlayered, so it beats Tailwind's text-sm/xs.
+ */
+@supports (-webkit-touch-callout: none) {
+  :is(input, select, textarea):not(.text-lg, .text-xl, .text-2xl, .text-3xl) {
+    font-size: 16px;
+  }
+}
+
 /* Respect reduced-motion everywhere: kill scroll-linked/parallax transforms */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

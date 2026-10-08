@@ -88,8 +88,8 @@ export function MediaLibrary({ initialMedia, brands }: { initialMedia: MediaItem
           <input type="file" accept="image/*" multiple disabled={pending} onChange={(e) => handleUpload(e.target.files)} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-colors" />
         </div>
         
-        <div className="flex items-center gap-2 ml-auto">
-          <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://image-url.jpg" className="w-64 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none" />
+        <div className="flex w-full items-center gap-2 sm:ml-auto sm:w-auto">
+          <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://image-url.jpg" className="min-w-0 flex-1 sm:w-64 sm:flex-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none" />
           <button disabled={pending} onClick={handleUrlImport} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors disabled:opacity-50">Import URL</button>
         </div>
       </div>
