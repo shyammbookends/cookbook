@@ -63,7 +63,7 @@ export async function PortalHomeView({ base = "", top }: { base?: string; top?: 
                   style={themeToCssVars(brandTheme) as React.CSSProperties}
                 >
                   <div
-                    className="relative isolate overflow-hidden p-5 sm:p-6 flex flex-col justify-between rounded-2xl sm:rounded-3xl h-[145px] sm:h-[155px]"
+                    className="relative isolate overflow-hidden p-5 sm:p-6 flex flex-col justify-between rounded-2xl sm:rounded-3xl h-36.25 sm:h-38.75"
                     style={{ background: "var(--brand-bg)", color: "var(--brand-fg)" }}
                   >
                     <span
@@ -98,7 +98,7 @@ export async function PortalHomeView({ base = "", top }: { base?: string; top?: 
                       {/* Layer 2 (Foreground): Crisp Brand Name or Exact Logo */}
                       {brand.slug === "beshak" ? (
                         <div className="relative z-10 pl-1 py-1">
-                          <BeshakLogo color="white" className="h-6 sm:h-7 w-auto max-w-[200px] sm:max-w-[240px] drop-shadow-sm" />
+                          <BeshakLogo color="white" className="h-6 sm:h-7 w-auto max-w-50 sm:max-w-60 drop-shadow-sm" />
                         </div>
                       ) : brand.slug === "ghaslet" ? (
                         <div className="relative z-10 pl-1">
